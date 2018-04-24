@@ -1,6 +1,6 @@
-# flutter_app
+# WireAd
 
-A new Flutter application.
+A new Flutter application to control internet access rules
 
 ## Getting Started
 
