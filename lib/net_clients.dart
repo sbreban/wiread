@@ -5,15 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:wiread/net_domains.dart';
 
 class NetClient {
+  final int id;
   final String name;
   final String macAddr;
   final String ipAddr;
 
-  NetClient({this.name, this.macAddr, this.ipAddr});
+  NetClient({this.id, this.name, this.macAddr, this.ipAddr});
 
   factory NetClient.fromJson(Map<String, dynamic> json) {
     return new NetClient(
-        name: json['Name'], macAddr: json['MacAddr'], ipAddr: json['IpAddr']);
+        id: json['Id'],
+        name: json['Name'],
+        macAddr: json['MacAddr'],
+        ipAddr: json['IpAddr']);
   }
 }
 
@@ -67,13 +71,15 @@ class NetClientsState extends State<NetClientsWidget> {
         value.name,
         style: _biggerFont,
       ),
+      onTap: _viewDomains,
     );
   }
 
   void _viewDomains() {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
-      new NetDomainsWidget();
-    }));
+    Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (context) => NetDomainsWidget()
+    ));
   }
 
   @override
@@ -81,9 +87,6 @@ class NetClientsState extends State<NetClientsWidget> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Clients'),
-        actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.list), onPressed: _viewDomains),
-        ],
       ),
       body: _buildClientsList(),
     );

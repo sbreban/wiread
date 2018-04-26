@@ -4,15 +4,17 @@ import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 
 class NetDomain {
+  int id;
   final String name;
   final String domain;
-  int block;
 
-  NetDomain({this.name, this.domain, this.block});
+  NetDomain({this.id, this.name, this.domain});
 
   factory NetDomain.fromJson(Map<String, dynamic> json) {
     return new NetDomain(
-        name: json['Name'], domain: json['Domain'], block: json['Block']);
+        id: json['Id'],
+        name: json['Name'],
+        domain: json['Domain']);
   }
 }
 
@@ -68,15 +70,15 @@ class NetDomainsState extends State<NetDomainsWidget> {
         style: _biggerFont,
       ),
       trailing: new Icon(
-        value.block == 0 ? Icons.favorite : Icons.favorite_border,
-        color: value.block == 0 ? Colors.red : null,
+        value.id == 0 ? Icons.favorite : Icons.favorite_border,
+        color: value.id == 0 ? Colors.red : null,
       ),
       onTap: () {
         setState(() {
-          if (value.block == 0) {
-            value.block = 1;
+          if (value.id == 0) {
+            value.id = 1;
           } else {
-            value.block = 0;
+            value.id = 0;
           }
         });
       },
