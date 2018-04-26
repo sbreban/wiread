@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 
 class NetDomain {
-  int id;
+  final int id;
   final String name;
   final String domain;
 
@@ -64,25 +64,7 @@ class NetDomainsState extends State<NetDomainsWidget> {
   }
 
   Widget _buildRow(NetDomain value) {
-    return new ListTile(
-      title: new Text(
-        value.name,
-        style: _biggerFont,
-      ),
-      trailing: new Icon(
-        value.id == 0 ? Icons.favorite : Icons.favorite_border,
-        color: value.id == 0 ? Colors.red : null,
-      ),
-      onTap: () {
-        setState(() {
-          if (value.id == 0) {
-            value.id = 1;
-          } else {
-            value.id = 0;
-          }
-        });
-      },
-    );
+    return new NetDomainWidget(value);
   }
 
   @override
@@ -92,6 +74,46 @@ class NetDomainsState extends State<NetDomainsWidget> {
         title: new Text('Domains'),
       ),
       body: _buildDomainsList(),
+    );
+  }
+}
+
+class NetDomainWidget extends StatefulWidget {
+
+  final NetDomain domain;
+
+  NetDomainWidget(this.domain);
+
+  @override
+  State createState() {
+    return new NetDomainState(domain);
+  }
+}
+
+class NetDomainState extends State<NetDomainWidget> {
+
+  final NetDomain domain;
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+  bool _blocked = false;
+
+  NetDomainState(this.domain);
+
+  @override
+  Widget build(BuildContext context) {
+    return new ListTile(
+      title: new Text(
+        domain.name,
+        style: _biggerFont,
+      ),
+      trailing: new Icon(
+        _blocked ? Icons.favorite : Icons.favorite_border,
+        color: _blocked ? Colors.red : null,
+      ),
+      onTap: () {
+        setState(() {
+          _blocked = !_blocked;
+        });
+      },
     );
   }
 }
