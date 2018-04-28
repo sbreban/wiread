@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0dc85c67-bc5c-4a59-98b1-e5a35af75c52" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/assets/config.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/lib/config.dart" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" afterPath="$PROJECT_DIR$/lib/main.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/net_clients.dart" afterPath="$PROJECT_DIR$/lib/net_clients.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/net_domains.dart" afterPath="$PROJECT_DIR$/lib/net_domains.dart" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" afterPath="$PROJECT_DIR$/pubspec.yaml" />
-      <change beforePath="$PROJECT_DIR$/wiread.iml" afterPath="$PROJECT_DIR$/wiread.iml" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -310,6 +303,14 @@
       <option name="presentableId" value="Default" />
       <updated>1524427228728</updated>
     </task>
+    <task id="LOCAL-00001" summary="Create configuration file">
+      <created>1524942424550</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1524942424550</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -350,6 +351,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Create configuration file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create configuration file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
