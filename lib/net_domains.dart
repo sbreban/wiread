@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:wiread/config.dart';
 
 class NetDomain {
   final int id;
@@ -31,8 +32,10 @@ class NetDomainsState extends State<NetDomainsWidget> {
 
   Widget _buildDomainsList() {
     final Client client = new Client();
+    final serverUrl = "http://${Config.getInstance().hostName}:"
+        "${Config.getInstance().port}/domains";
     final Future<Response> response =
-        client.get('http://pc.ddns.net:8080/domains');
+        client.get(serverUrl);
 
     return new FutureBuilder(
       future: response,

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:wiread/config.dart';
 import 'package:wiread/net_domains.dart';
 
 class NetClient {
@@ -22,6 +23,7 @@ class NetClient {
 }
 
 class NetClientsWidget extends StatefulWidget {
+
   @override
   State createState() {
     return new NetClientsState();
@@ -33,8 +35,12 @@ class NetClientsState extends State<NetClientsWidget> {
 
   Widget _buildClientsList() {
     final Client client = new Client();
+
+    var serverUrl = "http://${Config.getInstance().hostName}:"
+        "${Config.getInstance().port}/clients";
+    print(serverUrl);
     final Future<Response> response =
-        client.get('http://pc.ddns.net:8080/clients');
+        client.get(serverUrl);
 
     return new FutureBuilder(
       future: response,
