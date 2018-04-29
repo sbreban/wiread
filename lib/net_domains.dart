@@ -3,37 +3,53 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:wiread/config.dart';
+import 'package:wiread/net_clients.dart';
 
 class NetDomain {
   final int id;
+  final int clientId;
   final String name;
   final String domain;
+  final int block;
 
-  NetDomain({this.id, this.name, this.domain});
+  NetDomain({this.id, this.clientId, this.name, this.domain, this.block});
 
   factory NetDomain.fromJson(Map<String, dynamic> json) {
     return new NetDomain(
         id: json['Id'],
+        clientId: json['ClientId'],
         name: json['Name'],
-        domain: json['Domain']);
+        domain: json['Domain'],
+        block: json['Block']
+    );
   }
 }
 
 class NetDomainsWidget extends StatefulWidget {
+
+  final NetClient netClient;
+
+  NetDomainsWidget(this.netClient);
+
   @override
   State createState() {
-    return new NetDomainsState();
+    return new NetDomainsState(netClient);
   }
 }
 
 class NetDomainsState extends State<NetDomainsWidget> {
 
+  final NetClient netClient;
+
   final _biggerFont = const TextStyle(fontSize: 18.0);
+
+  NetDomainsState(this.netClient);
 
   Widget _buildDomainsList() {
     final Client client = new Client();
     final serverUrl = "http://${Config.getInstance().hostName}:"
-        "${Config.getInstance().port}/domains";
+        "${Config.getInstance().port}/domains/${netClient.id}";
+    print(serverUrl);
     final Future<Response> response =
         client.get(serverUrl);
 
@@ -97,9 +113,15 @@ class NetDomainState extends State<NetDomainWidget> {
 
   final NetDomain domain;
   final _biggerFont = const TextStyle(fontSize: 18.0);
-  bool _blocked = false;
+  int _block;
 
-  NetDomainState(this.domain);
+  NetDomainState._default(this.domain);
+
+  factory NetDomainState(NetDomain netDomain) {
+    NetDomainState domain = NetDomainState._default(netDomain);
+    domain._block = netDomain.block;
+    return domain;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,12 +131,17 @@ class NetDomainState extends State<NetDomainWidget> {
         style: _biggerFont,
       ),
       trailing: new Icon(
-        _blocked ? Icons.favorite : Icons.favorite_border,
-        color: _blocked ? Colors.red : null,
+        Icons.block,
+        color: _block == 1 ? Colors.red : null,
       ),
       onTap: () {
         setState(() {
-          _blocked = !_blocked;
+          _block = 1 - _block;
+          final Client client = new Client();
+          final serverUrl = "http://${Config.getInstance().hostName}:"
+              "${Config.getInstance().port}/domains/${domain.id}/${_block}";
+          print(serverUrl);
+          client.post(serverUrl);
         });
       },
     );

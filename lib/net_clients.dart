@@ -23,7 +23,6 @@ class NetClient {
 }
 
 class NetClientsWidget extends StatefulWidget {
-
   @override
   State createState() {
     return new NetClientsState();
@@ -36,11 +35,14 @@ class NetClientsState extends State<NetClientsWidget> {
   Widget _buildClientsList() {
     final Client client = new Client();
 
-    var serverUrl = "http://${Config.getInstance().hostName}:"
-        "${Config.getInstance().port}/clients";
+    var serverUrl = "http://${Config
+        .getInstance()
+        .hostName}:"
+        "${Config
+        .getInstance()
+        .port}/clients";
     print(serverUrl);
-    final Future<Response> response =
-        client.get(serverUrl);
+    final Future<Response> response = client.get(serverUrl);
 
     return new FutureBuilder(
       future: response,
@@ -77,15 +79,9 @@ class NetClientsState extends State<NetClientsWidget> {
         value.name,
         style: _biggerFont,
       ),
-      onTap: _viewDomains,
+      onTap: () => Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => NetDomainsWidget(value))),
     );
-  }
-
-  void _viewDomains() {
-    Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (context) => NetDomainsWidget()
-    ));
   }
 
   @override
