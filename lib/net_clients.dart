@@ -35,14 +35,13 @@ class NetClientsState extends State<NetClientsWidget> {
   Widget _buildClientsList() {
     final Client client = new Client();
 
-    var serverUrl = "http://${Config
-        .getInstance()
-        .hostName}:"
-        "${Config
-        .getInstance()
-        .port}/clients";
+    var serverUrl = "http://${Config.getInstance().hostName}:"
+        "${Config.getInstance().port}/clients";
     print(serverUrl);
-    final Future<Response> response = client.get(serverUrl);
+    final Future<Response> response = client.get(serverUrl, headers: {
+      'authorization': 'bearer ${Config.getInstance().token}',
+      'content-type': 'application/json'
+    });
 
     return new FutureBuilder(
       future: response,

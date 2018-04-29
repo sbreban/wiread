@@ -20,13 +20,11 @@ class NetDomain {
         clientId: json['ClientId'],
         name: json['Name'],
         domain: json['Domain'],
-        block: json['Block']
-    );
+        block: json['Block']);
   }
 }
 
 class NetDomainsWidget extends StatefulWidget {
-
   final NetClient netClient;
 
   NetDomainsWidget(this.netClient);
@@ -38,7 +36,6 @@ class NetDomainsWidget extends StatefulWidget {
 }
 
 class NetDomainsState extends State<NetDomainsWidget> {
-
   final NetClient netClient;
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
@@ -50,8 +47,10 @@ class NetDomainsState extends State<NetDomainsWidget> {
     final serverUrl = "http://${Config.getInstance().hostName}:"
         "${Config.getInstance().port}/domains/${netClient.id}";
     print(serverUrl);
-    final Future<Response> response =
-        client.get(serverUrl);
+    final Future<Response> response = client.get(serverUrl, headers: {
+      'authorization': 'bearer ${Config.getInstance().token}',
+      'content-type': 'application/json'
+    });
 
     return new FutureBuilder(
       future: response,
@@ -66,8 +65,8 @@ class NetDomainsState extends State<NetDomainsWidget> {
                   if (index < responseJson.length) {
                     print(responseJson[index]);
                     if (responseJson[index] != null) {
-                      NetDomain netDomain = NetDomain.fromJson(
-                          responseJson[index]);
+                      NetDomain netDomain =
+                          NetDomain.fromJson(responseJson[index]);
                       return _buildRow(netDomain);
                     }
                   }
@@ -98,7 +97,6 @@ class NetDomainsState extends State<NetDomainsWidget> {
 }
 
 class NetDomainWidget extends StatefulWidget {
-
   final NetDomain domain;
 
   NetDomainWidget(this.domain);
@@ -110,7 +108,6 @@ class NetDomainWidget extends StatefulWidget {
 }
 
 class NetDomainState extends State<NetDomainWidget> {
-
   final NetDomain domain;
   final _biggerFont = const TextStyle(fontSize: 18.0);
   int _block;
@@ -136,12 +133,19 @@ class NetDomainState extends State<NetDomainWidget> {
       ),
       onTap: () {
         setState(() {
-          _block = 1 - _block;
+          if (_block == 1) {
+            _block = 0;
+          } else {
+            _block = 1;
+          }
           final Client client = new Client();
           final serverUrl = "http://${Config.getInstance().hostName}:"
               "${Config.getInstance().port}/domains/${domain.id}/${_block}";
           print(serverUrl);
-          client.post(serverUrl);
+          client.post(serverUrl, headers: {
+            'authorization': 'bearer ${Config.getInstance().token}',
+            'content-type': 'application/json'
+          });
         });
       },
     );

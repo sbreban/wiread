@@ -7,8 +7,8 @@ import 'dart:convert';
 void main() {
   rootBundle.loadString('assets/config.json').then((String configString) {
     var configJson = json.decode(configString);
-    new Config(configJson['hostName'], configJson['port']);
-    print("${Config.getInstance().hostName}:${Config.getInstance().port}");
+    new Config(configJson['hostName'], configJson['port'], configJson['token']);
+    print("${Config.getInstance().hostName}:${Config.getInstance().port} ${Config.getInstance().token}");
     return runApp(new WireAd());
   }, onError: (error) => print(error));
 }

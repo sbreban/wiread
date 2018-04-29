@@ -1,14 +1,15 @@
 class Config {
   final String hostName;
   final String port;
+  final String token;
 
   static Config _instance;
 
-  Config._internal(this.hostName, this.port);
+  Config._internal(this.hostName, this.port, this.token);
 
-  factory Config(String hostName, String port) {
+  factory Config(String hostName, String port, String token) {
     if (_instance == null) {
-      _instance = Config._internal(hostName, port);
+      _instance = Config._internal(hostName, port, token);
     }
     return _instance;
   }
