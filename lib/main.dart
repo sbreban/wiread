@@ -4,6 +4,8 @@ import 'package:wiread/config.dart';
 import 'package:wiread/net_clients.dart';
 import 'dart:convert';
 
+import 'package:wiread/routes.dart';
+
 void main() {
   rootBundle.loadString('assets/config.json').then((String configString) {
     var configJson = json.decode(configString);
@@ -20,7 +22,7 @@ class WireAd extends StatelessWidget {
     final NetClientsWidget netClientsWidget = new NetClientsWidget();
     return new MaterialApp(
       title: 'Clients',
-      home: netClientsWidget,
+      routes: routes,
     );
   }
 }
