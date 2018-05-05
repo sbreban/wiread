@@ -74,8 +74,8 @@ class LoginScreenState extends State<LoginScreen>
                 child: new TextFormField(
                   onSaved: (val) => _username = val,
                   validator: (val) {
-                    return val.length < 10
-                        ? "Username must have atleast 10 chars"
+                    return val.length < 5
+                        ? "Username must have at least 5 chars"
                         : null;
                   },
                   decoration: new InputDecoration(labelText: "Username"),
@@ -86,6 +86,7 @@ class LoginScreenState extends State<LoginScreen>
                 child: new TextFormField(
                   onSaved: (val) => _password = val,
                   decoration: new InputDecoration(labelText: "Password"),
+                  obscureText: true,
                 ),
               ),
             ],
@@ -131,7 +132,7 @@ class LoginScreenState extends State<LoginScreen>
 
   @override
   void onLoginSuccess(User user) async {
-    _showSnackBar(user.toString());
+    _showSnackBar(user.username);
     setState(() => _isLoading = false);
     var db = new DatabaseHelper();
     await db.saveUser(user);

@@ -1,7 +1,6 @@
 import 'package:wiread/models/user.dart';
 import 'package:wiread/util/rest_ds.dart';
 
-
 abstract class LoginScreenContract {
   void onLoginSuccess(User user);
   void onLoginError(String errorTxt);
@@ -10,11 +9,19 @@ abstract class LoginScreenContract {
 class LoginScreenPresenter {
   LoginScreenContract _view;
   RestDataSource api = new RestDataSource();
+
   LoginScreenPresenter(this._view);
 
   doLogin(String username, String password) {
-    api.login(username, password).then((User user) {
-      _view.onLoginSuccess(user);
-    }).catchError((Exception error) => _view.onLoginError(error.toString()));
+    api.login(new User(id: 0, username: username, password: password)).then((User user) {
+      if (user != null) {
+        _view.onLoginSuccess(user);
+      } else {
+        _view.onLoginError("Login failed! Wrong username or password");
+      }
+    }).catchError((Exception error) {
+      print(error.toString());
+      _view.onLoginError(error.toString());
+    });
   }
 }

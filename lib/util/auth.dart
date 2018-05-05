@@ -1,6 +1,6 @@
 import 'package:wiread/util/database_helper.dart';
 
-enum AuthState{ LOGGED_IN, LOGGED_OUT }
+enum AuthState { LOGGED_IN, LOGGED_OUT }
 
 abstract class AuthStateListener {
   void onAuthStateChanged(AuthState state);
@@ -13,6 +13,7 @@ class AuthStateProvider {
   List<AuthStateListener> _subscribers;
 
   factory AuthStateProvider() => _instance;
+
   AuthStateProvider.internal() {
     _subscribers = new List<AuthStateListener>();
     initState();
@@ -21,7 +22,7 @@ class AuthStateProvider {
   void initState() async {
     var db = new DatabaseHelper();
     var isLoggedIn = await db.isLoggedIn();
-    if(isLoggedIn)
+    if (isLoggedIn)
       notify(AuthState.LOGGED_IN);
     else
       notify(AuthState.LOGGED_OUT);
@@ -32,10 +33,13 @@ class AuthStateProvider {
   }
 
   void dispose(AuthStateListener listener) {
-    for(var l in _subscribers) {
-      if(l == listener)
-        _subscribers.remove(l);
-    }
+    _subscribers.remove(listener);
+    print("Dispose ${_subscribers.length}");
+  }
+
+  void clear() {
+    _subscribers.clear();
+    print("Dispose ${_subscribers.length}");
   }
 
   void notify(AuthState state) {

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:wiread/util/auth.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
 import 'package:wiread/screens/net_domains.dart';
@@ -33,6 +34,7 @@ class NetClientsWidget extends StatefulWidget {
 
 class NetClientsState extends State<NetClientsWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  BuildContext _context;
 
   Widget _buildClientsList() {
     final Client client = new Client();
@@ -80,13 +82,14 @@ class NetClientsState extends State<NetClientsWidget> {
         value.name,
         style: _biggerFont,
       ),
-      onTap: () => Navigator.of(context).push(
+      onTap: () => Navigator.of(_context).push(
           new MaterialPageRoute(builder: (context) => NetDomainsWidget(value))),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Clients'),
@@ -102,9 +105,14 @@ class NetClientsState extends State<NetClientsWidget> {
     );
   }
 
-  Future _logout() async {
+  void _logout() {
     var db = new DatabaseHelper();
-    await db.deleteUsers();
-    Navigator.of(context).pushReplacementNamed("/login");
+    Future<int> delete = db.deleteUsers();
+    delete.then((int value) {
+      print("Delete user: $value");
+      var authStateProvider = new AuthStateProvider();
+      authStateProvider.clear();
+      Navigator.of(_context).pushReplacementNamed("/login");
+    });
   }
 }
