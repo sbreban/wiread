@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:wiread/auth.dart';
-import 'package:wiread/database_helper.dart';
-import 'package:wiread/login_screen_presenter.dart';
+import 'package:wiread/util/auth.dart';
+import 'package:wiread/util/database_helper.dart';
+import 'package:wiread/util/login_screen_presenter.dart';
 import 'package:wiread/models/user.dart';
 
 class LoginScreen extends StatefulWidget {

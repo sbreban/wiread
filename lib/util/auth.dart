@@ -1,4 +1,4 @@
-import 'package:wiread/database_helper.dart';
+import 'package:wiread/util/database_helper.dart';
 
 enum AuthState{ LOGGED_IN, LOGGED_OUT }
 

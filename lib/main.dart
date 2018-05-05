@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wiread/config.dart';
-import 'package:wiread/net_clients.dart';
+import 'package:wiread/util/config.dart';
+import 'package:wiread/screens/net_clients.dart';
 import 'dart:convert';
 
-import 'package:wiread/routes.dart';
+import 'package:wiread/util/routes.dart';
 
 void main() {
   rootBundle.loadString('assets/config.json').then((String configString) {

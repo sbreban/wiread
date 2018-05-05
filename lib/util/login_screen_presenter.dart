@@ -1,5 +1,5 @@
 import 'package:wiread/models/user.dart';
-import 'package:wiread/rest_ds.dart';
+import 'package:wiread/util/rest_ds.dart';
 
 
 abstract class LoginScreenContract {

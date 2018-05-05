@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
+
 import 'package:flutter/material.dart';
-import 'package:wiread/config.dart';
-import 'package:wiread/net_domains.dart';
+import 'package:http/http.dart';
+import 'package:wiread/util/config.dart';
+import 'package:wiread/util/database_helper.dart';
+import 'package:wiread/screens/net_domains.dart';
 
 class NetClient {
   final int id;
@@ -89,7 +91,20 @@ class NetClientsState extends State<NetClientsWidget> {
       appBar: new AppBar(
         title: new Text('Clients'),
       ),
+      bottomNavigationBar: new ButtonBar(
+        alignment: MainAxisAlignment.center,
+        children: <Widget>[new RaisedButton(
+          onPressed: _logout,
+          child: new Text("Logout"),
+        )],
+      ),
       body: _buildClientsList(),
     );
+  }
+
+  Future _logout() async {
+    var db = new DatabaseHelper();
+    await db.deleteUsers();
+    Navigator.of(context).pushReplacementNamed("/login");
   }
 }

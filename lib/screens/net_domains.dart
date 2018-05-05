@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
-import 'package:wiread/config.dart';
-import 'package:wiread/net_clients.dart';
+import 'package:wiread/util/config.dart';
+import 'package:wiread/screens/net_clients.dart';
 
 class NetDomain {
   final int id;

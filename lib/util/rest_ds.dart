@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:http/http.dart';
-import 'package:wiread/config.dart';
+import 'package:wiread/util/config.dart';
 import 'package:wiread/models/user.dart';
 
 class RestDataSource {
