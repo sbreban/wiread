@@ -19,8 +19,8 @@ class LoginScreenPresenter {
       } else {
         _view.onLoginError("Login failed! Wrong username or password");
       }
-    }).catchError((Exception error) {
-      print(error.toString());
+    }).catchError((Object error) {
+      print("Error on doLogin : ${error.toString()}");
       _view.onLoginError(error.toString());
     });
   }

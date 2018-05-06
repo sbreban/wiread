@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wiread/util/config.dart';
-import 'package:wiread/screens/net_clients.dart';
+import 'package:wiread/screens/net_clients_screen.dart';
 import 'dart:convert';
 
 import 'package:wiread/util/routes.dart';

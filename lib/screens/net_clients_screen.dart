@@ -3,27 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:wiread/models/net_client.dart';
 import 'package:wiread/util/auth.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
-import 'package:wiread/screens/net_domains.dart';
-
-class NetClient {
-  final int id;
-  final String name;
-  final String macAddr;
-  final String ipAddr;
-
-  NetClient({this.id, this.name, this.macAddr, this.ipAddr});
-
-  factory NetClient.fromJson(Map<String, dynamic> json) {
-    return new NetClient(
-        id: json['Id'],
-        name: json['Name'],
-        macAddr: json['MacAddr'],
-        ipAddr: json['IpAddr']);
-  }
-}
+import 'package:wiread/screens/net_domains_screen.dart';
 
 class NetClientsWidget extends StatefulWidget {
   @override
