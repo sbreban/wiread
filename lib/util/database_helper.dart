@@ -32,7 +32,7 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-        "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT, password TEXT)");
+        "CREATE TABLE User(Id INTEGER PRIMARY KEY, Username TEXT, Password TEXT)");
     print("Created tables");
   }
 
@@ -48,10 +48,15 @@ class DatabaseHelper {
     return res;
   }
 
-  Future<bool> isLoggedIn() async {
+  Future<int> isLoggedIn() async {
     var dbClient = await db;
     var res = await dbClient.query("User");
-    return res.length > 0? true: false;
+    print("Is logged in: $res");
+    int userId = 0;
+    if (res != null && res.length > 0 && res[0] != null && res[0]["Id"] != null) {
+      userId = res[0]["Id"];
+    }
+    return userId;
   }
 
 }

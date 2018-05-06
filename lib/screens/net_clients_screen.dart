@@ -4,26 +4,34 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/net_client.dart';
-import 'package:wiread/screens/net_domains_screen.dart';
 import 'package:wiread/util/auth.dart';
+import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
 import 'package:wiread/util/rest_data_source.dart';
 
 class NetClientsWidget extends StatefulWidget {
+
+  final int userId;
+
+  NetClientsWidget(this.userId);
+
   @override
   State createState() {
-    return new NetClientsState();
+    return new NetClientsState(userId);
   }
 }
 
 class NetClientsState extends State<NetClientsWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  final int userId;
+
+  NetClientsState(this.userId);
 
   Widget _buildClientsList() {
     print("_buildClientsList");
 
     RestDataSource restDataSource = new RestDataSource();
-    final Future<Response> response = restDataSource.get("clients");
+    final Future<Response> response = restDataSource.get("clients/$userId");
 
     return new FutureBuilder(
       future: response,
@@ -60,8 +68,10 @@ class NetClientsState extends State<NetClientsWidget> {
         value.name,
         style: _biggerFont,
       ),
-      onTap: () => Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => NetDomainsWidget(value))),
+      onTap: () {
+        print("Router: ${Config.getInstance().router}");
+        Config.getInstance().router.navigateTo(context, "/domains?clientId=${value.id}");
+      }
     );
   }
 
@@ -90,7 +100,7 @@ class NetClientsState extends State<NetClientsWidget> {
       print("Delete user: $value");
       var authStateProvider = new AuthStateProvider();
       authStateProvider.clear();
-      Navigator.of(context).pushReplacementNamed("/login");
+      Config.getInstance().router.navigateTo(context, "/");
     });
   }
 }

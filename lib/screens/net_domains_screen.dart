@@ -3,31 +3,31 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:wiread/models/net_client.dart';
 import 'package:wiread/models/net_domain.dart';
 import 'package:wiread/util/rest_data_source.dart';
 
 class NetDomainsWidget extends StatefulWidget {
-  final NetClient netClient;
 
-  NetDomainsWidget(this.netClient);
+  final int clientId;
+
+  NetDomainsWidget(this.clientId);
 
   @override
   State createState() {
-    return new NetDomainsState(netClient);
+    return new NetDomainsState(clientId);
   }
 }
 
 class NetDomainsState extends State<NetDomainsWidget> {
-  final NetClient netClient;
 
+  final int clientId;
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
-  NetDomainsState(this.netClient);
+  NetDomainsState(this.clientId);
 
   Widget _buildDomainsList() {
     RestDataSource restDataSource = new RestDataSource();
-    final Future<Response> response = restDataSource.get("domains/${netClient.id}");
+    final Future<Response> response = restDataSource.get("domains/$clientId");
 
     return new FutureBuilder(
       future: response,

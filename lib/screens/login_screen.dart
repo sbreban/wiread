@@ -1,12 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:wiread/models/user.dart';
 import 'package:wiread/util/auth.dart';
+import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
 import 'package:wiread/util/login_screen_presenter.dart';
-import 'package:wiread/models/user.dart';
 
 class LoginScreen extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     return new LoginScreenState();
@@ -44,9 +46,11 @@ class LoginScreenState extends State<LoginScreen>
   }
 
   @override
-  onAuthStateChanged(AuthState state) {
-    if(state == AuthState.LOGGED_IN)
-      Navigator.of(context).pushReplacementNamed("/home");
+  onAuthStateChanged(AuthState state, int userId) {
+    if(state == AuthState.LOGGED_IN) {
+      print("Router: ${Config.getInstance().router}");
+      Config.getInstance().router.navigateTo(context, "/clients?userId=$userId");
+    }
   }
 
   @override
@@ -134,6 +138,6 @@ class LoginScreenState extends State<LoginScreen>
     var db = new DatabaseHelper();
     await db.saveUser(user);
     var authStateProvider = new AuthStateProvider();
-    authStateProvider.notify(AuthState.LOGGED_IN);
+    authStateProvider.notify(AuthState.LOGGED_IN, user.id);
   }
 }
