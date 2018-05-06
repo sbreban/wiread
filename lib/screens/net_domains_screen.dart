@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:wiread/models/net_client.dart';
 import 'package:wiread/models/net_domain.dart';
 import 'package:wiread/util/config.dart';
+import 'package:wiread/util/rest_data_source.dart';
 
 class NetDomainsWidget extends StatefulWidget {
   final NetClient netClient;
@@ -26,14 +27,8 @@ class NetDomainsState extends State<NetDomainsWidget> {
   NetDomainsState(this.netClient);
 
   Widget _buildDomainsList() {
-    final Client client = new Client();
-    final serverUrl = "http://${Config.getInstance().hostName}:"
-        "${Config.getInstance().port}/domains/${netClient.id}";
-    print(serverUrl);
-    final Future<Response> response = client.get(serverUrl, headers: {
-      'authorization': 'bearer ${Config.getInstance().token}',
-      'content-type': 'application/json'
-    });
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.get("domains/${netClient.id}");
 
     return new FutureBuilder(
       future: response,
@@ -121,14 +116,8 @@ class NetDomainState extends State<NetDomainWidget> {
           } else {
             _block = 1;
           }
-          final Client client = new Client();
-          final serverUrl = "http://${Config.getInstance().hostName}:"
-              "${Config.getInstance().port}/domains/${domain.id}/${_block}";
-          print(serverUrl);
-          client.post(serverUrl, headers: {
-            'authorization': 'bearer ${Config.getInstance().token}',
-            'content-type': 'application/json'
-          });
+          RestDataSource restDataSource = new RestDataSource();
+          restDataSource.post("domains/${domain.id}/$_block", "");
         });
       },
     );

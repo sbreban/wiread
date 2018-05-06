@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/net_client.dart';
-import 'package:wiread/util/auth.dart';
-import 'package:wiread/util/config.dart';
-import 'package:wiread/util/database_helper.dart';
 import 'package:wiread/screens/net_domains_screen.dart';
+import 'package:wiread/util/auth.dart';
+import 'package:wiread/util/database_helper.dart';
+import 'package:wiread/util/rest_data_source.dart';
 
 class NetClientsWidget extends StatefulWidget {
   @override
@@ -21,15 +21,8 @@ class NetClientsState extends State<NetClientsWidget> {
   BuildContext _context;
 
   Widget _buildClientsList() {
-    final Client client = new Client();
-
-    var serverUrl = "http://${Config.getInstance().hostName}:"
-        "${Config.getInstance().port}/clients";
-    print(serverUrl);
-    final Future<Response> response = client.get(serverUrl, headers: {
-      'authorization': 'bearer ${Config.getInstance().token}',
-      'content-type': 'application/json'
-    });
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.get("clients");
 
     return new FutureBuilder(
       future: response,
