@@ -9,7 +9,7 @@ class RestDataSource {
 
   Future<User> login(User user) {
     var userJson = json.encode(user.toMap());
-    print("USer JSON: $userJson");
+    print("User JSON: $userJson");
 
     return post("login", userJson).then((Response response) {
       if (response.body != null && response.body.isNotEmpty) {

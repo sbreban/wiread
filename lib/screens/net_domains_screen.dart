@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/net_client.dart';
 import 'package:wiread/models/net_domain.dart';
-import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
 
 class NetDomainsWidget extends StatefulWidget {
@@ -35,13 +34,13 @@ class NetDomainsState extends State<NetDomainsWidget> {
       builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
         if (snapshot.data != null) {
           try {
-            print(snapshot.data.body);
+            print("Domains response data: ${snapshot.data.body}");
             final responseJson = json.decode(snapshot.data.body);
             return new ListView.builder(
                 padding: const EdgeInsets.all(16.0),
                 itemBuilder: (context, index) {
                   if (index < responseJson.length) {
-                    print(responseJson[index]);
+                    print("Domain $index: ${responseJson[index]}");
                     if (responseJson[index] != null) {
                       NetDomain netDomain =
                           NetDomain.fromJson(responseJson[index]);

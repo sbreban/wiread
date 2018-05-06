@@ -18,9 +18,10 @@ class NetClientsWidget extends StatefulWidget {
 
 class NetClientsState extends State<NetClientsWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
-  BuildContext _context;
 
   Widget _buildClientsList() {
+    print("_buildClientsList");
+
     RestDataSource restDataSource = new RestDataSource();
     final Future<Response> response = restDataSource.get("clients");
 
@@ -29,13 +30,13 @@ class NetClientsState extends State<NetClientsWidget> {
       builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
         if (snapshot.data != null) {
           try {
-            print(snapshot.data.body);
+            print("Clients response data: ${snapshot.data.body}");
             final responseJson = json.decode(snapshot.data.body);
             return new ListView.builder(
                 padding: const EdgeInsets.all(16.0),
                 itemBuilder: (context, index) {
                   if (index < responseJson.length) {
-                    print(responseJson[index]);
+                    print("Client $index : ${responseJson[index]}");
                     if (responseJson[index] != null) {
                       NetClient netDomain =
                           NetClient.fromJson(responseJson[index]);
@@ -59,14 +60,14 @@ class NetClientsState extends State<NetClientsWidget> {
         value.name,
         style: _biggerFont,
       ),
-      onTap: () => Navigator.of(_context).push(
+      onTap: () => Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => NetDomainsWidget(value))),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
+    print("Build NetClientWidget state");
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Clients'),
@@ -89,7 +90,7 @@ class NetClientsState extends State<NetClientsWidget> {
       print("Delete user: $value");
       var authStateProvider = new AuthStateProvider();
       authStateProvider.clear();
-      Navigator.of(_context).pushReplacementNamed("/login");
+      Navigator.of(context).pushReplacementNamed("/login");
     });
   }
 }
