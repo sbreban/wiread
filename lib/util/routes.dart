@@ -6,6 +6,7 @@ import './route_handlers.dart';
 class Routes {
 
   static String root = "/";
+  static String homeRoute = "/home";
   static String clientsRoute = "/clients";
   static String domainsRoute = "/domains";
 
@@ -14,6 +15,7 @@ class Routes {
       print("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: rootHandler);
+    router.define(homeRoute, handler: homeRouteHandler);
     router.define(clientsRoute, handler: clientsRouteHandler);
     router.define(domainsRoute, handler: domainsRouteHandler);
   }

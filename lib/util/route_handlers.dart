@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:wiread/screens/home_screen.dart';
 import 'package:wiread/screens/login_screen.dart';
 import 'package:wiread/screens/net_clients_screen.dart';
 import 'package:wiread/screens/net_domains_screen.dart';
@@ -9,6 +10,11 @@ var rootHandler = new Handler(handlerFunc: (BuildContext context, Map<String, Li
   return new LoginScreen();
 });
 
+var homeRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Home route params: $params");
+  int userId = int.parse(params["userId"]?.first);
+  return new HomeWidget(userId);
+});
 
 var clientsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Clients route params: $params");
@@ -18,6 +24,5 @@ var clientsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<St
 
 var domainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Domains route params: $params");
-  int clientId = int.parse(params["clientId"]?.first);
-  return new NetDomainsWidget(clientId);
+  return new NetDomainsWidget(0);
 });

@@ -4,9 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/net_client.dart';
-import 'package:wiread/util/auth.dart';
-import 'package:wiread/util/config.dart';
-import 'package:wiread/util/database_helper.dart';
 import 'package:wiread/util/rest_data_source.dart';
 
 class NetClientsWidget extends StatefulWidget {
@@ -67,11 +64,7 @@ class NetClientsState extends State<NetClientsWidget> {
       title: new Text(
         value.name,
         style: _biggerFont,
-      ),
-      onTap: () {
-        print("Router: ${Config.getInstance().router}");
-        Config.getInstance().router.navigateTo(context, "/domains?clientId=${value.id}");
-      }
+      )
     );
   }
 
@@ -82,25 +75,7 @@ class NetClientsState extends State<NetClientsWidget> {
       appBar: new AppBar(
         title: new Text('Clients'),
       ),
-      bottomNavigationBar: new ButtonBar(
-        alignment: MainAxisAlignment.center,
-        children: <Widget>[new RaisedButton(
-          onPressed: _logout,
-          child: new Text("Logout"),
-        )],
-      ),
       body: _buildClientsList(),
     );
-  }
-
-  void _logout() {
-    var db = new DatabaseHelper();
-    Future<int> delete = db.deleteUsers();
-    delete.then((int value) {
-      print("Delete user: $value");
-      var authStateProvider = new AuthStateProvider();
-      authStateProvider.clear();
-      Config.getInstance().router.navigateTo(context, "/");
-    });
   }
 }

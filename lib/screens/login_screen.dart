@@ -49,7 +49,7 @@ class LoginScreenState extends State<LoginScreen>
   onAuthStateChanged(AuthState state, int userId) {
     if(state == AuthState.LOGGED_IN) {
       print("Router: ${Config.getInstance().router}");
-      Config.getInstance().router.navigateTo(context, "/clients?userId=$userId");
+      Config.getInstance().router.navigateTo(context, "/home?userId=$userId");
     }
   }
 

@@ -27,7 +27,7 @@ class NetDomainsState extends State<NetDomainsWidget> {
 
   Widget _buildDomainsList() {
     RestDataSource restDataSource = new RestDataSource();
-    final Future<Response> response = restDataSource.get("domains/$clientId");
+    final Future<Response> response = restDataSource.get("domains");
 
     return new FutureBuilder(
       future: response,
