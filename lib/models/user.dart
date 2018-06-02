@@ -2,8 +2,9 @@ class User {
   int id;
   String username;
   String password;
+  int admin;
 
-  User({this.id, this.username, this.password});
+  User({this.id, this.username, this.password, this.admin});
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
@@ -11,6 +12,7 @@ class User {
     map["Id"] = id;
     map["Username"] = username;
     map["Password"] = password;
+    map["Admin"] = admin;
 
     return map;
   }
@@ -19,7 +21,8 @@ class User {
     return new User(
         id: json['Id'],
         username: json['Username'],
-        password: json['Password']
+        password: json['Password'],
+        admin: json['Admin'],
     );
   }
 }

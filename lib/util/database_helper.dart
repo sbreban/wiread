@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io' as io;
 
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:wiread/models/user.dart';
 
 class DatabaseHelper {
@@ -32,7 +32,7 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-        "CREATE TABLE User(Id INTEGER PRIMARY KEY, Username TEXT, Password TEXT)");
+        "CREATE TABLE User(Id INTEGER PRIMARY KEY, Username TEXT, Password TEXT, Admin INTEGER)");
     print("Created tables");
   }
 
@@ -48,15 +48,15 @@ class DatabaseHelper {
     return res;
   }
 
-  Future<int> isLoggedIn() async {
+  Future<User> isLoggedIn() async {
     var dbClient = await db;
     var res = await dbClient.query("User");
     print("Is logged in: $res");
-    int userId = 0;
+    User user;
     if (res != null && res.length > 0 && res[0] != null && res[0]["Id"] != null) {
-      userId = res[0]["Id"];
+      user = User.fromJson(res[0]);
     }
-    return userId;
+    return user;
   }
 
 }

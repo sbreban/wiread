@@ -1,5 +1,5 @@
 {
-  "hostName" : "192.168.0.103",
+  "hostName" : "wire.dad",
   "port" : "8080",
   "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.OhqbfNNlKKdd71_KONuOw452prxsx_KCTx4_WpbrAyI"
 }

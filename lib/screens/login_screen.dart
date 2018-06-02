@@ -46,10 +46,12 @@ class LoginScreenState extends State<LoginScreen>
   }
 
   @override
-  onAuthStateChanged(AuthState state, int userId) {
+  onAuthStateChanged(AuthState state, User user) {
     if(state == AuthState.LOGGED_IN) {
-      print("Router: ${Config.getInstance().router}");
-      Config.getInstance().router.navigateTo(context, "/home?userId=$userId");
+      if (user.admin == 1) {
+        print("Router: ${Config.getInstance().router}");
+        Config.getInstance().router.navigateTo(context, "/admin?userId=${user.id}");
+      }
     }
   }
 
@@ -138,6 +140,6 @@ class LoginScreenState extends State<LoginScreen>
     var db = new DatabaseHelper();
     await db.saveUser(user);
     var authStateProvider = new AuthStateProvider();
-    authStateProvider.notify(AuthState.LOGGED_IN, user.id);
+    authStateProvider.notify(AuthState.LOGGED_IN, user);
   }
 }

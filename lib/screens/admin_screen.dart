@@ -5,10 +5,10 @@ import 'package:wiread/util/auth.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
 
-class HomeWidget extends StatefulWidget {
+class AdminWidget extends StatefulWidget {
   final int userId;
 
-  HomeWidget(this.userId);
+  AdminWidget(this.userId);
 
   @override
   State createState() {
@@ -16,7 +16,7 @@ class HomeWidget extends StatefulWidget {
   }
 }
 
-class HomeState extends State<HomeWidget> {
+class HomeState extends State<AdminWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
   final int userId;
 
@@ -31,7 +31,7 @@ class HomeState extends State<HomeWidget> {
         children: <Widget>[
           new RaisedButton(
             onPressed: _clients,
-            child: new Text("Clients"),
+            child: new Text("Users"),
           ),
           new RaisedButton(
             onPressed: _domains,

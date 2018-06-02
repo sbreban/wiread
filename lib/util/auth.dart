@@ -1,9 +1,10 @@
+import 'package:wiread/models/user.dart';
 import 'package:wiread/util/database_helper.dart';
 
 enum AuthState { LOGGED_IN, LOGGED_OUT }
 
 abstract class AuthStateListener {
-  void onAuthStateChanged(AuthState state, int userId);
+  void onAuthStateChanged(AuthState state, User user);
 }
 
 // A naive implementation of Observer/Subscriber Pattern. Will do for now.
@@ -21,11 +22,11 @@ class AuthStateProvider {
 
   void initState() async {
     var db = new DatabaseHelper();
-    var userId = await db.isLoggedIn();
-    if (userId != 0)
-      notify(AuthState.LOGGED_IN, userId);
+    User user = await db.isLoggedIn();
+    if (user != null)
+      notify(AuthState.LOGGED_IN, user);
     else
-      notify(AuthState.LOGGED_OUT, userId);
+      notify(AuthState.LOGGED_OUT, user);
   }
 
   void subscribe(AuthStateListener listener) {
@@ -42,7 +43,7 @@ class AuthStateProvider {
     print("Dispose ${_subscribers.length}");
   }
 
-  void notify(AuthState state, int userId) {
-    _subscribers.forEach((AuthStateListener s) => s.onAuthStateChanged(state, userId));
+  void notify(AuthState state, User user) {
+    _subscribers.forEach((AuthStateListener s) => s.onAuthStateChanged(state, user));
   }
 }
