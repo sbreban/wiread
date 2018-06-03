@@ -48,7 +48,7 @@ class LoginScreenState extends State<LoginScreen>
   @override
   onAuthStateChanged(AuthState state, User user) {
     if(state == AuthState.LOGGED_IN) {
-      if (user.admin == 1) {
+      if (user.admin == 0) {
         print("Router: ${Config.getInstance().router}");
         Config.getInstance().router.navigateTo(context, "/admin?userId=${user.id}");
       }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/user.dart';
 import 'package:wiread/screens/user_card.dart';
+import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
 
 class UsersWidget extends StatefulWidget {
@@ -70,8 +71,18 @@ class UsersWidgetState extends State<UsersWidget> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Users'),
+          actions: [
+            new IconButton(
+              icon: new Icon(Icons.add),
+              onPressed: () => _showNewUserForm(),
+            ),
+          ],
       ),
       body: _buildUsersList(),
     );
+  }
+
+  _showNewUserForm() {
+    Config.getInstance().router.navigateTo(context, "/new_user?userId=$userId");
   }
 }
