@@ -32,7 +32,8 @@ class WireAdState extends State<WireAd> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Clients',
+      title: 'WireAd',
+      theme: new ThemeData(brightness: Brightness.dark),
       onGenerateRoute: Config.getInstance().router.generator,
     );
   }

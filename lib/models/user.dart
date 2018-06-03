@@ -1,8 +1,12 @@
+import 'dart:async';
+
 class User {
   int id;
   String username;
   String password;
   int admin;
+
+  String avatarUrl;
 
   User({this.id, this.username, this.password, this.admin});
 
@@ -24,5 +28,11 @@ class User {
         password: json['Password'],
         admin: json['Admin'],
     );
+  }
+
+  Future getAvatarUrl() async {
+    if (avatarUrl != null) {
+      return;
+    }
   }
 }

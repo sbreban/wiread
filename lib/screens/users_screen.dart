@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/user.dart';
-import 'package:wiread/util/config.dart';
+import 'package:wiread/screens/user_card.dart';
 import 'package:wiread/util/rest_data_source.dart';
 
 class UsersWidget extends StatefulWidget {
@@ -61,15 +61,7 @@ class UsersWidgetState extends State<UsersWidget> {
   }
 
   Widget _buildRow(User value) {
-    return new ListTile(
-        title: new Text(
-          value.username,
-          style: _biggerFont,
-        ),
-        onTap: () {
-          Config.getInstance().router.navigateTo(context, "/clients?userId=${value.id}");
-        },
-    );
+    return new UserCard(value);
   }
 
   @override
