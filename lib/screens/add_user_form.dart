@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/user.dart';
 import 'package:wiread/util/rest_data_source.dart';
+import 'package:wiread/util/routes.dart';
 
 class AddUserForm extends StatefulWidget {
   final int userId;
@@ -43,7 +44,7 @@ class AddUserFormState extends State<AddUserForm> {
       print("New user JSON: $userJson");
 
       RestDataSource restDataSource = new RestDataSource();
-      final Future<Response> response = restDataSource.post("new_user", userJson);
+      final Future<Response> response = restDataSource.post("${Routes.addUserRoute}", userJson);
       response.then((Response response) {
         if (response.body != null && response.body.isNotEmpty) {
           print("Response: ${response.body}");

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/device.dart';
 import 'package:wiread/util/rest_data_source.dart';
+import 'package:wiread/util/routes.dart';
 
 class DevicesWidget extends StatefulWidget {
 
@@ -28,7 +29,7 @@ class DevicesWidgetState extends State<DevicesWidget> {
     print("_buildDevicesList");
 
     RestDataSource restDataSource = new RestDataSource();
-    final Future<Response> response = restDataSource.get("devices/$userId");
+    final Future<Response> response = restDataSource.get("${Routes.devicesRoute}/$userId");
 
     return new FutureBuilder(
       future: response,

@@ -6,6 +6,7 @@ import 'package:wiread/util/auth.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
 import 'package:wiread/util/login_screen_presenter.dart';
+import 'package:wiread/util/routes.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -48,11 +49,12 @@ class LoginScreenState extends State<LoginScreen>
   @override
   onAuthStateChanged(AuthState state, User user) {
     if(state == AuthState.LOGGED_IN) {
-      print("Router: ${Config.getInstance().router}");
+      var router = Config.getInstance().router;
+      print("Router: $router");
       if (user.admin == 0) {
-        Config.getInstance().router.navigateTo(context, "/admin?userId=${user.id}", replace: true);
+        router.navigateTo(context, "${Routes.adminRoute}?userId=${user.id}", replace: true);
       } else {
-        Config.getInstance().router.navigateTo(context, "/userHome?userId=${user.id}", replace: true);
+        router.navigateTo(context, "${Routes.userHomeRoute}?userId=${user.id}", replace: true);
       }
     }
   }

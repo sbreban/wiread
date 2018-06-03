@@ -1,33 +1,28 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:wiread/models/net_domain.dart';
+import 'package:wiread/models/domain.dart';
+import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
+import 'package:wiread/util/routes.dart';
 
-class NetDomainsWidget extends StatefulWidget {
-
-  final int clientId;
-
-  NetDomainsWidget(this.clientId);
-
+class DomainsWidget extends StatefulWidget {
   @override
   State createState() {
-    return new NetDomainsState(clientId);
+    return new DomainsWidgetState();
   }
 }
 
-class NetDomainsState extends State<NetDomainsWidget> {
-
-  final int clientId;
+class DomainsWidgetState extends State<DomainsWidget> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  NetDomainsState(this.clientId);
+  final Router router = Config.getInstance().router;
 
   Widget _buildDomainsList() {
     RestDataSource restDataSource = new RestDataSource();
-    final Future<Response> response = restDataSource.get("domains");
+    final Future<Response> response = restDataSource.get("${Routes.domainsRoute}");
 
     return new FutureBuilder(
       future: response,
@@ -42,8 +37,8 @@ class NetDomainsState extends State<NetDomainsWidget> {
                   if (index < responseJson.length) {
                     print("Domain $index: ${responseJson[index]}");
                     if (responseJson[index] != null) {
-                      NetDomain netDomain =
-                          NetDomain.fromJson(responseJson[index]);
+                      Domain netDomain =
+                          Domain.fromJson(responseJson[index]);
                       return _buildRow(netDomain);
                     }
                   }
@@ -58,41 +53,48 @@ class NetDomainsState extends State<NetDomainsWidget> {
     );
   }
 
-  Widget _buildRow(NetDomain value) {
-    return new NetDomainWidget(value);
+  Widget _buildRow(Domain value) {
+    return new DomainWidget(value);
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Domains'),
-      ),
+      appBar: new AppBar(title: new Text('Domains'), actions: [
+        new IconButton(
+          icon: new Icon(Icons.add),
+          onPressed: () => _showAddDomainForm(),
+        ),
+      ]),
       body: _buildDomainsList(),
     );
   }
-}
 
-class NetDomainWidget extends StatefulWidget {
-  final NetDomain domain;
-
-  NetDomainWidget(this.domain);
-
-  @override
-  State createState() {
-    return new NetDomainState(domain);
+  _showAddDomainForm() {
+    router.navigateTo(context, "${Routes.addDomainRoute}");
   }
 }
 
-class NetDomainState extends State<NetDomainWidget> {
-  final NetDomain domain;
+class DomainWidget extends StatefulWidget {
+  final Domain domain;
+
+  DomainWidget(this.domain);
+
+  @override
+  State createState() {
+    return new DomainState(domain);
+  }
+}
+
+class DomainState extends State<DomainWidget> {
+  final Domain domain;
   final _biggerFont = const TextStyle(fontSize: 18.0);
   int _block;
 
-  NetDomainState._default(this.domain);
+  DomainState._default(this.domain);
 
-  factory NetDomainState(NetDomain netDomain) {
-    NetDomainState domain = NetDomainState._default(netDomain);
+  factory DomainState(Domain netDomain) {
+    DomainState domain = DomainState._default(netDomain);
     domain._block = netDomain.block;
     return domain;
   }
@@ -116,7 +118,7 @@ class NetDomainState extends State<NetDomainWidget> {
             _block = 1;
           }
           RestDataSource restDataSource = new RestDataSource();
-          restDataSource.post("domains/${domain.id}/$_block", "");
+          restDataSource.post("${Routes.domainsRoute}/${domain.id}/$_block", "");
         });
       },
     );

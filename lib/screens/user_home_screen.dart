@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wiread/util/auth.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
+import 'package:wiread/util/routes.dart';
 
 class UserHomeWidget extends StatefulWidget {
 
@@ -20,6 +22,7 @@ class UserHomeWidget extends StatefulWidget {
 class UserHomeWidgetState extends State<UserHomeWidget> {
 
   final int userId;
+  final Router router = Config.getInstance().router;
 
   UserHomeWidgetState(this.userId);
 
@@ -27,6 +30,7 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
   Widget build(BuildContext context) {
     print("Build UserHomeWidgetState");
     return new AppBar(
+      title: new Text("Welcome, user!"),
       leading: new Container(),
       bottom: new PreferredSize(child: new Column(
         children: <Widget>[
@@ -50,11 +54,11 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
       print("Delete user: $value");
       var authStateProvider = new AuthStateProvider();
       authStateProvider.clear();
-      Config.getInstance().router.navigateTo(context, "/", replace: true);
+      router.navigateTo(context, "/", replace: true);
     });
   }
 
   _registerDevice() {
-    Config.getInstance().router.navigateTo(context, "/registerDevice?userId=$userId");
+    router.navigateTo(context, "${Routes.registerDeviceRoute}?userId=$userId");
   }
 }

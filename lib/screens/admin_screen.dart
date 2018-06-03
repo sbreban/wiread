@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wiread/util/auth.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
+import 'package:wiread/util/routes.dart';
 
 class AdminWidget extends StatefulWidget {
 
@@ -20,6 +22,7 @@ class AdminWidget extends StatefulWidget {
 class AdminWidgetState extends State<AdminWidget> {
 
   final int userId;
+  final Router router = Config.getInstance().router;
 
   AdminWidgetState(this.userId);
 
@@ -27,6 +30,7 @@ class AdminWidgetState extends State<AdminWidget> {
   Widget build(BuildContext context) {
     print("Build AdminWidgetState");
     return new AppBar(
+      title: new Text("Welcome, admin!"),
       leading: new Container(),
       bottom: new PreferredSize(child: new Column(
         children: <Widget>[
@@ -54,15 +58,15 @@ class AdminWidgetState extends State<AdminWidget> {
       print("Delete user: $value");
       var authStateProvider = new AuthStateProvider();
       authStateProvider.clear();
-      Config.getInstance().router.navigateTo(context, "/", replace: true);
+      router.navigateTo(context, "/", replace: true);
     });
   }
 
   void _users() {
-    Config.getInstance().router.navigateTo(context, "/users?userId=$userId");
+    router.navigateTo(context, "${Routes.usersRoute}?userId=$userId");
   }
 
   void _domains() {
-    Config.getInstance().router.navigateTo(context, "/domains?userId=$userId");
+    router.navigateTo(context, "${Routes.domainsRoute}?userId=$userId");
   }
 }

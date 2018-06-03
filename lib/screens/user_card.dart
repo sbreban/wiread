@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wiread/models/user.dart';
 import 'package:wiread/util/config.dart';
+import 'package:wiread/util/routes.dart';
 
 class UserCard extends StatefulWidget {
   final User user;
@@ -126,6 +127,7 @@ class UserCardState extends State<UserCard> {
   }
 
   showDogDetailPage() {
-    Config.getInstance().router.navigateTo(context, "/devices?userId=${user.id}");
+    var router = Config.getInstance().router;
+    router.navigateTo(context, "${Routes.devicesRoute}?userId=${user.id}");
   }
 }

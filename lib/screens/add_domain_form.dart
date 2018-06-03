@@ -3,51 +3,42 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:wiread/models/device.dart';
+import 'package:wiread/models/domain.dart';
 import 'package:wiread/util/rest_data_source.dart';
 import 'package:wiread/util/routes.dart';
 
-class RegisterDeviceForm extends StatefulWidget {
-  final int userId;
-
-  RegisterDeviceForm(this.userId);
-
+class AddDomainForm extends StatefulWidget {
   @override
-  RegisterDeviceFormState createState() => new RegisterDeviceFormState(userId);
+  AddDomainFormState createState() => new AddDomainFormState();
 }
 
-class RegisterDeviceFormState extends State<RegisterDeviceForm> {
-  final int userId;
-
-  RegisterDeviceFormState(this.userId);
-
+class AddDomainFormState extends State<AddDomainForm> {
   TextEditingController nameController = new TextEditingController();
+  TextEditingController wildcardController = new TextEditingController();
 
   void submit(context) {
     if (nameController.text.isEmpty) {
       Scaffold.of(context).showSnackBar(
-            new SnackBar(
-              backgroundColor: Colors.redAccent,
-              content: new Text('Device name cannot be empty!'),
-            ),
-          );
+        new SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: new Text('Domain name cannot be empty!'),
+        ),
+      );
     } else {
-      var newDevice = new Device(
-          id: 0, name: nameController.text, macAddr: '', ipAddr: '');
+      var newDomain = new Domain(id: 0, name: nameController.text, domain: wildcardController.text, block: 1);
 
-      var deviceJson = json.encode(newDevice.toMap());
-      print("New device JSON: $deviceJson");
+      var domainJson = json.encode(newDomain.toMap());
+      print("New domain JSON: $domainJson");
 
       RestDataSource restDataSource = new RestDataSource();
-      final Future<Response> response =
-          restDataSource.post("${Routes.registerDeviceRoute}/$userId", deviceJson);
+      final Future<Response> response = restDataSource.post("${Routes.addDomainRoute}", domainJson);
       response.then((Response response) {
         if (response.body != null && response.body.isNotEmpty) {
           print("Response: ${response.body}");
         }
       });
 
-      Navigator.of(context).pop(newDevice);
+      Navigator.of(context).pop(newDomain);
     }
   }
 
@@ -55,7 +46,7 @@ class RegisterDeviceFormState extends State<RegisterDeviceForm> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Add a new device'),
+        title: new Text('Add a new domain'),
         backgroundColor: Colors.black87,
       ),
       body: new Container(
@@ -72,8 +63,17 @@ class RegisterDeviceFormState extends State<RegisterDeviceForm> {
                 child: new TextFormField(
                     controller: nameController,
                     decoration: new InputDecoration(
-                      labelText: 'Name the new device',
+                      labelText: "Domain name",
                     )),
+              ),
+              new Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: new TextFormField(
+                  controller: wildcardController,
+                  decoration: new InputDecoration(
+                    labelText: "Domain wildcard",
+                  ),
+                ),
               ),
               new Padding(
                 padding: const EdgeInsets.all(16.0),

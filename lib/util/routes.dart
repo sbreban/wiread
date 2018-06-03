@@ -6,13 +6,14 @@ import './route_handlers.dart';
 class Routes {
 
   static String root = "/";
-  static String adminRoute = "/admin";
-  static String userHomeRoute = "/userHome";
-  static String registerDeviceRoute = "/registerDevice";
-  static String usersRoute = "/users";
-  static String newUserRoute = "/new_user";
-  static String devicesRoute = "/devices";
-  static String domainsRoute = "/domains";
+  static String adminRoute = "admin";
+  static String userHomeRoute = "userHome";
+  static String registerDeviceRoute = "register_device";
+  static String usersRoute = "users";
+  static String addUserRoute = "add_user";
+  static String devicesRoute = "devices";
+  static String domainsRoute = "domains";
+  static String addDomainRoute = "add_domain";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -23,9 +24,10 @@ class Routes {
     router.define(userHomeRoute, handler: userHomeRouteHandler);
     router.define(registerDeviceRoute, handler: registerDeviceRouteHandler);
     router.define(usersRoute, handler: usersRouteHandler);
-    router.define(newUserRoute, handler: newUserRouteHandler);
+    router.define(addUserRoute, handler: addUserRouteHandler);
     router.define(devicesRoute, handler: devicesRouteHandler);
     router.define(domainsRoute, handler: domainsRouteHandler);
+    router.define(addDomainRoute, handler: addDomainRouteHandler);
   }
 
 }

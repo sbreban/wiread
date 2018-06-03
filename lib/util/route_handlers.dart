@@ -1,10 +1,11 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:wiread/screens/add_domain_form.dart';
 import 'package:wiread/screens/admin_screen.dart';
 import 'package:wiread/screens/login_screen.dart';
 import 'package:wiread/screens/devices_screen.dart';
-import 'package:wiread/screens/net_domains_screen.dart';
-import 'package:wiread/screens/new_user_form.dart';
+import 'package:wiread/screens/domains_screen.dart';
+import 'package:wiread/screens/add_user_form.dart';
 import 'package:wiread/screens/register_device_form.dart';
 import 'package:wiread/screens/user_home_screen.dart';
 import 'package:wiread/screens/users_screen.dart';
@@ -38,7 +39,7 @@ var usersRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<Stri
   return new UsersWidget(userId);
 });
 
-var newUserRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var addUserRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("New user route params: $params");
   int userId = int.parse(params["userId"]?.first);
   return new AddUserForm(userId);
@@ -52,5 +53,10 @@ var devicesRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<St
 
 var domainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Domains route params: $params");
-  return new NetDomainsWidget(0);
+  return new DomainsWidget();
+});
+
+var addDomainRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Add domain route params: $params");
+  return new AddDomainForm();
 });
