@@ -2,9 +2,10 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wiread/screens/admin_screen.dart';
 import 'package:wiread/screens/login_screen.dart';
-import 'package:wiread/screens/net_clients_screen.dart';
+import 'package:wiread/screens/devices_screen.dart';
 import 'package:wiread/screens/net_domains_screen.dart';
 import 'package:wiread/screens/new_user_form.dart';
+import 'package:wiread/screens/register_device_form.dart';
 import 'package:wiread/screens/user_home_screen.dart';
 import 'package:wiread/screens/users_screen.dart';
 
@@ -25,6 +26,12 @@ var userHomeRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<S
   return new UserHomeWidget(userId);
 });
 
+var registerDeviceRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Register device route params: $params");
+  int userId = int.parse(params["userId"]?.first);
+  return new RegisterDeviceForm(userId);
+});
+
 var usersRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Users route params: $params");
   int userId = int.parse(params["userId"]?.first);
@@ -37,10 +44,10 @@ var newUserRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<St
   return new AddUserForm(userId);
 });
 
-var clientsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  print("Clients route params: $params");
+var devicesRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Devices route params: $params");
   int userId = int.parse(params["userId"]?.first);
-  return new NetClientsWidget(userId);
+  return new DevicesWidget(userId);
 });
 
 var domainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {

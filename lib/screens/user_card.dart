@@ -126,6 +126,6 @@ class UserCardState extends State<UserCard> {
   }
 
   showDogDetailPage() {
-    Config.getInstance().router.navigateTo(context, "/clients?userId=${user.id}");
+    Config.getInstance().router.navigateTo(context, "/devices?userId=${user.id}");
   }
 }

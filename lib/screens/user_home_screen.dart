@@ -31,6 +31,10 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
       bottom: new PreferredSize(child: new Column(
         children: <Widget>[
           new RaisedButton(
+            onPressed: _registerDevice,
+            child: new Text("Register device"),
+          ),
+          new RaisedButton(
             onPressed: _logout,
             child: new Text("Logout"),
           ),
@@ -48,5 +52,9 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
       authStateProvider.clear();
       Config.getInstance().router.navigateTo(context, "/", replace: true);
     });
+  }
+
+  _registerDevice() {
+    Config.getInstance().router.navigateTo(context, "/registerDevice?userId=$userId");
   }
 }
