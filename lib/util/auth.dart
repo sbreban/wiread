@@ -1,5 +1,11 @@
+import 'dart:async';
+
+import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
 import 'package:wiread/models/user.dart';
+import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
+import 'package:wiread/util/routes.dart';
 
 enum AuthState { LOGGED_IN, LOGGED_OUT }
 
@@ -41,6 +47,17 @@ class AuthStateProvider {
   void clear() {
     _subscribers.clear();
     print("Dispose ${_subscribers.length}");
+  }
+
+  void logout(BuildContext context) {
+    var db = new DatabaseHelper();
+    Future<int> delete = db.deleteUsers();
+    delete.then((int value) {
+      print("Delete user: $value");
+      clear();
+      Router router = Config.getInstance().router;
+      router.navigateTo(context, "${Routes.root}", replace: true);
+    });
   }
 
   void notify(AuthState state, User user) {

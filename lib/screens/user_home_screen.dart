@@ -48,14 +48,8 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
   }
 
   void _logout() {
-    var db = new DatabaseHelper();
-    Future<int> delete = db.deleteUsers();
-    delete.then((int value) {
-      print("Delete user: $value");
-      var authStateProvider = new AuthStateProvider();
-      authStateProvider.clear();
-      router.navigateTo(context, "/", replace: true);
-    });
+    AuthStateProvider authStateProvider = new AuthStateProvider();
+    authStateProvider.logout(context);
   }
 
   _registerDevice() {
