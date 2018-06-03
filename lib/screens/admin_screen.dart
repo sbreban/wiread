@@ -30,7 +30,7 @@ class HomeState extends State<AdminWidget> {
       bottom: new PreferredSize(child: new Column(
         children: <Widget>[
           new RaisedButton(
-            onPressed: _clients,
+            onPressed: _users,
             child: new Text("Users"),
           ),
           new RaisedButton(
@@ -57,8 +57,8 @@ class HomeState extends State<AdminWidget> {
     });
   }
 
-  void _clients() {
-    Config.getInstance().router.navigateTo(context, "/clients?userId=$userId");
+  void _users() {
+    Config.getInstance().router.navigateTo(context, "/users?userId=$userId");
   }
 
   void _domains() {
