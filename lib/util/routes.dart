@@ -7,6 +7,7 @@ class Routes {
 
   static String root = "/";
   static String adminRoute = "/admin";
+  static String userHomeRoute = "/userHome";
   static String usersRoute = "/users";
   static String newUserRoute = "/new_user";
   static String clientsRoute = "/clients";
@@ -18,6 +19,7 @@ class Routes {
     });
     router.define(root, handler: rootHandler);
     router.define(adminRoute, handler: adminRouteHandler);
+    router.define(userHomeRoute, handler: userHomeRouteHandler);
     router.define(usersRoute, handler: usersRouteHandler);
     router.define(newUserRoute, handler: newUserRouteHandler);
     router.define(clientsRoute, handler: clientsRouteHandler);

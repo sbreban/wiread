@@ -5,39 +5,31 @@ import 'package:wiread/util/auth.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/database_helper.dart';
 
-class AdminWidget extends StatefulWidget {
+class UserHomeWidget extends StatefulWidget {
 
   final int userId;
 
-  AdminWidget(this.userId);
+  UserHomeWidget(this.userId);
 
   @override
   State createState() {
-    return new AdminWidgetState(userId);
+    return new UserHomeWidgetState(userId);
   }
 }
 
-class AdminWidgetState extends State<AdminWidget> {
+class UserHomeWidgetState extends State<UserHomeWidget> {
 
   final int userId;
 
-  AdminWidgetState(this.userId);
+  UserHomeWidgetState(this.userId);
 
   @override
   Widget build(BuildContext context) {
-    print("Build AdminWidgetState");
+    print("Build UserHomeWidgetState");
     return new AppBar(
       leading: new Container(),
       bottom: new PreferredSize(child: new Column(
         children: <Widget>[
-          new RaisedButton(
-            onPressed: _users,
-            child: new Text("Users"),
-          ),
-          new RaisedButton(
-            onPressed: _domains,
-            child: new Text("Domains"),
-          ),
           new RaisedButton(
             onPressed: _logout,
             child: new Text("Logout"),
@@ -56,13 +48,5 @@ class AdminWidgetState extends State<AdminWidget> {
       authStateProvider.clear();
       Config.getInstance().router.navigateTo(context, "/", replace: true);
     });
-  }
-
-  void _users() {
-    Config.getInstance().router.navigateTo(context, "/users?userId=$userId");
-  }
-
-  void _domains() {
-    Config.getInstance().router.navigateTo(context, "/domains?userId=$userId");
   }
 }

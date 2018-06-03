@@ -48,9 +48,11 @@ class LoginScreenState extends State<LoginScreen>
   @override
   onAuthStateChanged(AuthState state, User user) {
     if(state == AuthState.LOGGED_IN) {
+      print("Router: ${Config.getInstance().router}");
       if (user.admin == 0) {
-        print("Router: ${Config.getInstance().router}");
         Config.getInstance().router.navigateTo(context, "/admin?userId=${user.id}");
+      } else {
+        Config.getInstance().router.navigateTo(context, "/userHome?userId=${user.id}");
       }
     }
   }
@@ -77,8 +79,8 @@ class LoginScreenState extends State<LoginScreen>
                 child: new TextFormField(
                   onSaved: (val) => _username = val,
                   validator: (val) {
-                    return val.length < 5
-                        ? "Username must have at least 5 chars"
+                    return val.length < 2
+                        ? "Username must have at least 2 chars"
                         : null;
                   },
                   decoration: new InputDecoration(labelText: "Username"),

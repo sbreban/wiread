@@ -5,6 +5,7 @@ import 'package:wiread/screens/login_screen.dart';
 import 'package:wiread/screens/net_clients_screen.dart';
 import 'package:wiread/screens/net_domains_screen.dart';
 import 'package:wiread/screens/new_user_form.dart';
+import 'package:wiread/screens/user_home_screen.dart';
 import 'package:wiread/screens/users_screen.dart';
 
 
@@ -16,6 +17,12 @@ var adminRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<Stri
   print("Home route params: $params");
   int userId = int.parse(params["userId"]?.first);
   return new AdminWidget(userId);
+});
+
+var userHomeRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("User home route params: $params");
+  int userId = int.parse(params["userId"]?.first);
+  return new UserHomeWidget(userId);
 });
 
 var usersRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
