@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wiread/util/auth.dart';
 import 'package:wiread/util/config.dart';
-import 'package:wiread/util/database_helper.dart';
 import 'package:wiread/util/routes.dart';
 
 class AdminWidget extends StatefulWidget {
@@ -61,6 +58,6 @@ class AdminWidgetState extends State<AdminWidget> {
   }
 
   void _domains() {
-    router.navigateTo(context, "${Routes.domainsRoute}?userId=$userId");
+    router.navigateTo(context, "${Routes.domainsRoute}");
   }
 }

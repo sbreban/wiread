@@ -121,6 +121,26 @@ class DomainState extends State<DomainWidget> {
           restDataSource.post("${Routes.domainsRoute}/${domain.id}/$_block", "");
         });
       },
+      onLongPress: () {
+        showDialog(context: context, builder: (BuildContext context) {
+          return new SimpleDialog(title: new Text(domain.name),
+            children: <Widget>[
+              new ListTile(title: new Text("Delete"),
+                onTap: () {
+                  RestDataSource restDataSource = new RestDataSource();
+                  final Future<Response> response = restDataSource.post("${Routes.deleteDomainRoute}/${domain.id}", null);
+                  response.then((Response response) {
+                    Router router = Config.getInstance().router;
+                    router.navigateTo(context, "${Routes.domainsRoute}");
+                    if (response.body != null && response.body.isNotEmpty) {
+                      print("Response: ${response.body}");
+                    }
+                  });
+                },),
+              new ListTile(title: new Text("Edit"))
+            ],);
+        });
+      },
     );
   }
 }
