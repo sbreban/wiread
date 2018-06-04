@@ -58,5 +58,5 @@ var domainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<St
 
 var addDomainRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Add domain route params: $params");
-  return new AddDomainForm();
+  return new AddDomainForm(null);
 });

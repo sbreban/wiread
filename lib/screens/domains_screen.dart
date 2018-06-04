@@ -5,6 +5,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/domain.dart';
+import 'package:wiread/screens/add_domain_form.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
 import 'package:wiread/util/routes.dart';
@@ -126,21 +127,34 @@ class DomainState extends State<DomainWidget> {
           return new SimpleDialog(title: new Text(domain.name),
             children: <Widget>[
               new ListTile(title: new Text("Delete"),
-                onTap: () {
-                  RestDataSource restDataSource = new RestDataSource();
-                  final Future<Response> response = restDataSource.post("${Routes.deleteDomainRoute}/${domain.id}", null);
-                  response.then((Response response) {
-                    Router router = Config.getInstance().router;
-                    router.navigateTo(context, "${Routes.domainsRoute}");
-                    if (response.body != null && response.body.isNotEmpty) {
-                      print("Response: ${response.body}");
-                    }
-                  });
-                },),
-              new ListTile(title: new Text("Edit"))
+                  onTap: deleteDomain),
+              new ListTile(title: new Text("Edit"),
+                  onTap: editDomain)
             ],);
         });
       },
     );
   }
+
+  deleteDomain() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.post(
+        "${Routes.deleteDomainRoute}/${domain.id}", null);
+    response.then((Response response) {
+      Router router = Config.getInstance().router;
+      router.navigateTo(context, "${Routes.domainsRoute}");
+      if (response.body != null && response.body.isNotEmpty) {
+        print("Response: ${response.body}");
+      }
+    });
+  }
+
+  editDomain() {
+    Navigator.of(context).push(new MaterialPageRoute(
+      builder: (context) {
+        return new AddDomainForm(domain);
+      },
+    ));
+  }
+
 }
