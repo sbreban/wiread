@@ -118,6 +118,7 @@ class DomainState extends State<DomainWidget> {
           } else {
             _block = 1;
           }
+          print("Set domain state: $_block");
           RestDataSource restDataSource = new RestDataSource();
           restDataSource.post("${Routes.domainsRoute}/${domain.id}/$_block", "");
         });

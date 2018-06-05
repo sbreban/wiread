@@ -34,17 +34,17 @@ class AddDomainFormState extends State<AddDomainForm> {
       );
     } else {
       if (domain != null) {
-        var newDomain = new Domain(id: domain.id,
+        var editedDomain = new Domain(id: domain.id,
             name: nameController.text,
             domain: wildcardController.text,
             block: domain.block);
 
-        var domainJson = json.encode(newDomain.toMap());
+        var domainJson = json.encode(editedDomain.toMap());
         print("Edited domain JSON: $domainJson");
 
         RestDataSource restDataSource = new RestDataSource();
         final Future<Response> response = restDataSource.post(
-            "${Routes.editDomainRoute}", domainJson);
+            "${Routes.editDomainRoute}/${editedDomain.id}", domainJson);
         response.then((Response response) {
           if (response.body != null && response.body.isNotEmpty) {
             print("Response: ${response.body}");
