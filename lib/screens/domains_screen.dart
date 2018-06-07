@@ -61,12 +61,15 @@ class DomainsWidgetState extends State<DomainsWidget> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Domains'), actions: [
-        new IconButton(
-          icon: new Icon(Icons.add),
-          onPressed: () => _showAddDomainForm(),
-        ),
-      ]),
+      appBar: new AppBar(
+          title: new Text('Domains'),
+          backgroundColor: Colors.black87,
+          actions: [
+            new IconButton(
+              icon: new Icon(Icons.add),
+              onPressed: () => _showAddDomainForm(),
+            ),
+          ]),
       body: _buildDomainsList(),
     );
   }

@@ -47,7 +47,7 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
           child: new Column(
             children: [
               new Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+                padding: const EdgeInsets.all(16.0),
                 child: new Builder(
                   builder: (context) {
                     return new RaisedButton(

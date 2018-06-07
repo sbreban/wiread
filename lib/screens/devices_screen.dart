@@ -75,6 +75,7 @@ class DevicesWidgetState extends State<DevicesWidget> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Devices'),
+        backgroundColor: Colors.black87,
       ),
       body: _buildDevicesList(),
     );

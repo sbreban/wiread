@@ -26,25 +26,45 @@ class AdminWidgetState extends State<AdminWidget> {
   @override
   Widget build(BuildContext context) {
     print("Build AdminWidgetState");
-    return new AppBar(
-      title: new Text("Welcome, admin!"),
-      leading: new Container(),
-      bottom: new PreferredSize(child: new Column(
-        children: <Widget>[
-          new RaisedButton(
-            onPressed: _users,
-            child: new Text("Users"),
+    return new Scaffold(
+        appBar: new AppBar(
+            title: new Text("Welcome, admin!"),
+            backgroundColor: Colors.black87,
+            leading: new Container()),
+        body: new Container(
+          color: Colors.black54,
+          child: new Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 32.0,
+            ),
+            child: new Column(
+              children: [
+                new Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: new RaisedButton(
+                    onPressed: _users,
+                    child: new Text("Users"),
+                  ),
+                ),
+                new Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: new RaisedButton(
+                    onPressed: _domains,
+                    child: new Text("Domains"),
+                  ),
+                ),
+                new Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: new RaisedButton(
+                    onPressed: _logout,
+                    child: new Text("Logout"),
+                  ),
+                )
+              ],
+            ),
           ),
-          new RaisedButton(
-            onPressed: _domains,
-            child: new Text("Domains"),
-          ),
-          new RaisedButton(
-            onPressed: _logout,
-            child: new Text("Logout"),
-          ),
-        ],
-      ), preferredSize: const Size.fromHeight(48.0)),
+        )
     );
   }
 

@@ -43,7 +43,11 @@ class LoginScreenState extends State<LoginScreen>
 
   void _showSnackBar(String text) {
     scaffoldKey.currentState
-        .showSnackBar(new SnackBar(content: new Text(text)));
+        .showSnackBar(
+        new SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: new Text(text)
+        ));
   }
 
   @override
