@@ -387,6 +387,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.7"
+  wifistate:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "01692d316d0e5f9d8d33d591d7c4870e85ba85ca"
+      url: "https://github.com/sbreban/wifistate-flutter-plugin.git"
+    source: git
+    version: "0.0.1"
   yaml:
     dependency: transitive
     description:
@@ -395,5 +404,5 @@ packages:
     source: hosted
     version: "2.1.13"
 sdks:
-  dart: ">=2.0.0-dev.52.0 <=2.0.0-dev.59.0.flutter-ff815d05a5"
+  dart: ">=2.0.0-dev.52.0 <=2.0.0-dev.60.0.flutter-a5e41681e5"
   flutter: ">=0.1.4 <2.0.0"

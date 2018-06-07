@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:wifistate/wifistate.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/device.dart';
@@ -26,28 +27,34 @@ class RegisterDeviceFormState extends State<RegisterDeviceForm> {
   void submit(context) {
     if (nameController.text.isEmpty) {
       Scaffold.of(context).showSnackBar(
-            new SnackBar(
-              backgroundColor: Colors.redAccent,
-              content: new Text('Device name cannot be empty!'),
-            ),
-          );
+        new SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: new Text('Device name cannot be empty!'),
+        ),
+      );
     } else {
-      var newDevice = new Device(
-          id: 0, name: nameController.text, macAddr: '', ipAddr: '');
+      final Wifistate connectivity = new Wifistate();
 
-      var deviceJson = json.encode(newDevice.toMap());
-      print("New device JSON: $deviceJson");
+      connectivity.checkConnectivity().then((ConnectivityResult result) {
+        print("Mac address ${result.mac}");
 
-      RestDataSource restDataSource = new RestDataSource();
-      final Future<Response> response =
-          restDataSource.post("${Routes.registerDeviceRoute}/$userId", deviceJson);
-      response.then((Response response) {
-        if (response.body != null && response.body.isNotEmpty) {
-          print("Response: ${response.body}");
-        }
+        var newDevice = new Device(
+            id: 0, name: nameController.text, macAddr: result.mac, ipAddr: '');
+
+        var deviceJson = json.encode(newDevice.toMap());
+        print("New device JSON: $deviceJson");
+
+        RestDataSource restDataSource = new RestDataSource();
+        final Future<Response> response =
+        restDataSource.post("${Routes.registerDeviceRoute}/$userId", deviceJson);
+        response.then((Response response) {
+          if (response.body != null && response.body.isNotEmpty) {
+            print("Response: ${response.body}");
+          }
+        });
+
+        Navigator.of(context).pop(newDevice);
       });
-
-      Navigator.of(context).pop(newDevice);
     }
   }
 
