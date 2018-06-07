@@ -12,6 +12,7 @@ class Routes {
   static String usersRoute = "users";
   static String addUserRoute = "add_user";
   static String devicesRoute = "devices";
+  static String deleteDeviceRoute = "delete_device";
   static String domainsRoute = "domains";
   static String addDomainRoute = "add_domain";
   static String editDomainRoute = "edit_domain";

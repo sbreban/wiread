@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/device.dart';
+import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
 import 'package:wiread/util/routes.dart';
 
@@ -61,12 +63,7 @@ class DevicesWidgetState extends State<DevicesWidget> {
   }
 
   Widget _buildRow(Device value) {
-    return new ListTile(
-      title: new Text(
-        value.name,
-        style: _biggerFont,
-      )
-    );
+    return new DeviceWidget(value, userId);
   }
 
   @override
@@ -81,3 +78,88 @@ class DevicesWidgetState extends State<DevicesWidget> {
     );
   }
 }
+
+class DeviceWidget extends StatefulWidget {
+  final Device device;
+  final int userId;
+
+  DeviceWidget(this.device, this.userId);
+
+  @override
+  State createState() {
+    return new DeviceWidgetState(device, userId);
+  }
+}
+
+class DeviceWidgetState extends State<DeviceWidget> {
+  final Device device;
+  final int userId;
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+  int _block;
+
+  DeviceWidgetState._default(this.device, this.userId);
+
+  factory DeviceWidgetState(Device device, int userId) {
+    DeviceWidgetState domainWidgetState = DeviceWidgetState._default(device, userId);
+    domainWidgetState._block = 0;
+    return domainWidgetState;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new ListTile(
+      title: new Text(
+        device.name,
+        style: _biggerFont,
+      ),
+      trailing: new Icon(
+        Icons.block,
+        color: _block == 1 ? Colors.red : null,
+      ),
+      onTap: () {
+        setState(() {
+          if (_block == 1) {
+            _block = 0;
+          } else {
+            _block = 1;
+          }
+          print("Set device state: $_block");
+          RestDataSource restDataSource = new RestDataSource();
+          restDataSource.post("${Routes.devicesRoute}/${device.id}/$_block", "");
+        });
+      },
+      onLongPress: () {
+        showDialog(context: context, builder: (BuildContext context) {
+          return new SimpleDialog(title: new Text(device.name),
+            children: <Widget>[
+              new ListTile(title: new Text("Delete"),
+                  onTap: deleteDevice),
+              new ListTile(title: new Text("Edit"),
+                  onTap: editDevice)
+            ],);
+        });
+      },
+    );
+  }
+
+  deleteDevice() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.post(
+        "${Routes.deleteDeviceRoute}/${device.id}", null);
+    response.then((Response response) {
+      Navigator.of(context).pop();
+      Router router = Config.getInstance().router;
+      router.navigateTo(context, "${Routes.devicesRoute}?userId=$userId");
+      if (response.body != null && response.body.isNotEmpty) {
+        print("Response: ${response.body}");
+      }
+    });
+  }
+
+  editDevice() {
+    Navigator.of(context).pop();
+  }
+
+}
+
+

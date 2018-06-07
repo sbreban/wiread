@@ -145,6 +145,7 @@ class DomainState extends State<DomainWidget> {
     final Future<Response> response = restDataSource.post(
         "${Routes.deleteDomainRoute}/${domain.id}", null);
     response.then((Response response) {
+      Navigator.of(context).pop();
       Router router = Config.getInstance().router;
       router.navigateTo(context, "${Routes.domainsRoute}");
       if (response.body != null && response.body.isNotEmpty) {
@@ -154,6 +155,7 @@ class DomainState extends State<DomainWidget> {
   }
 
   editDomain() {
+    Navigator.of(context).pop();
     Navigator.of(context).push(new MaterialPageRoute(
       builder: (context) {
         return new AddDomainForm(domain);
