@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/device.dart';
 import 'package:wiread/screens/add_device_form.dart';
+import 'package:wiread/screens/edit_time_window_form.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
 import 'package:wiread/util/routes.dart';
@@ -143,6 +144,8 @@ class DeviceWidgetState extends State<DeviceWidget> {
         showDialog(context: context, builder: (BuildContext context) {
           return new SimpleDialog(title: new Text(device.name),
             children: <Widget>[
+              new ListTile(title: new Text("Edite time window"),
+                  onTap: editTimeWindow),
               new ListTile(title: new Text("Delete"),
                   onTap: deleteDevice),
               new ListTile(title: new Text("Edit"),
@@ -151,6 +154,15 @@ class DeviceWidgetState extends State<DeviceWidget> {
         });
       },
     );
+  }
+
+  editTimeWindow() {
+    Navigator.of(context).pop();
+    Navigator.of(context).push(new MaterialPageRoute(
+      builder: (context) {
+        return new EditTimeWindowForm(userId, device);
+      },
+    ));
   }
 
   deleteDevice() {
