@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/device.dart';
+import 'package:wiread/models/device_block.dart';
 import 'package:wiread/screens/add_device_form.dart';
 import 'package:wiread/screens/edit_time_window_form.dart';
 import 'package:wiread/util/config.dart';
@@ -157,10 +158,29 @@ class DeviceWidgetState extends State<DeviceWidget> {
   }
 
   editTimeWindow() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.get("${Routes.getDeviceBlockRoute}/${device.id}");
+
     Navigator.of(context).pop();
     Navigator.of(context).push(new MaterialPageRoute(
       builder: (context) {
-        return new EditTimeWindowForm(userId, device);
+        return new FutureBuilder(
+          future: response,
+          builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+            if (snapshot.data != null) {
+              try {
+                final responseJson = json.decode(snapshot.data.body);
+                DeviceBlock deviceBlock = DeviceBlock.fromJson(responseJson);
+                print("Get device block: $deviceBlock");
+                return new EditTimeWindowForm(userId, device, deviceBlock);
+              } catch (e) {
+                return new Text("Error loading: " + e.toString());
+              }
+            } else {
+              return new CircularProgressIndicator();
+            }
+          },
+        );
       },
     ));
   }

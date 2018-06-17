@@ -14,6 +14,8 @@ class Routes {
   static String devicesRoute = "devices";
   static String deleteDeviceRoute = "delete_device";
   static String addDeviceRoute = "add_device";
+  static String getDeviceBlockRoute = "get_device_block";
+  static String setDeviceBlockRoute = "set_device_block";
   static String domainsRoute = "domains";
   static String addDomainRoute = "add_domain";
   static String editDomainRoute = "edit_domain";

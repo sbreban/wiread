@@ -1,29 +1,76 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:wiread/models/device.dart';
+import 'package:wiread/models/device_block.dart';
+import 'package:wiread/util/rest_data_source.dart';
+import 'package:wiread/util/routes.dart';
 
 class EditTimeWindowForm extends StatefulWidget {
   final int userId;
   final Device device;
+  final DeviceBlock deviceBlock;
 
-  EditTimeWindowForm(this.userId, this.device);
+  EditTimeWindowForm(this.userId, this.device, this.deviceBlock);
 
   @override
   EditTimeWindowFormState createState() =>
-      new EditTimeWindowFormState(userId, device);
+      new EditTimeWindowFormState(userId, device, deviceBlock);
 }
 
 class EditTimeWindowFormState extends State<EditTimeWindowForm> {
   final int userId;
   final Device device;
+  final DeviceBlock deviceBlock;
 
-  EditTimeWindowFormState(this.userId, this.device);
+  EditTimeWindowFormState._default(this.userId, this.device, this.deviceBlock);
+
+  factory EditTimeWindowFormState(int userId, Device device, DeviceBlock deviceBlock) {
+    EditTimeWindowFormState editTimeWindowFormState = EditTimeWindowFormState._default(userId, device, deviceBlock);
+
+    if (deviceBlock != null) {
+      if (deviceBlock.fromTime != null) {
+        print("From time : ${deviceBlock.fromTime}");
+        var fromSplit = deviceBlock.fromTime.split(":");
+        editTimeWindowFormState._fromTime = TimeOfDay(
+            hour: int.parse(fromSplit[0]), minute: int.parse(fromSplit[1]));
+      }
+
+      if (deviceBlock.toTime != null) {
+        print("To time : ${deviceBlock.toTime}");
+        var toSplit = deviceBlock.toTime.split(":");
+        editTimeWindowFormState._toTime =
+            TimeOfDay(
+                hour: int.parse(toSplit[0]), minute: int.parse(toSplit[1]));
+      }
+    }
+
+    return editTimeWindowFormState;
+  }
 
   TimeOfDay _fromTime = const TimeOfDay(hour: 8, minute: 0);
   TimeOfDay _toTime = const TimeOfDay(hour: 20, minute: 0);
 
-  void submit(context) {}
+  void submit(context) {
+    var editedDeviceBlock = new DeviceBlock(deviceId: deviceBlock.deviceId,
+        fromTime: "${_fromTime.hour}:${_fromTime.minute}",
+        toTime: deviceBlock.toTime,
+        block: deviceBlock.block);
+
+    var deviceBlockJson = json.encode(editedDeviceBlock.toMap());
+    print("Edited device block JSON: $deviceBlockJson");
+
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.post(
+        "${Routes.setDeviceBlockRoute}", deviceBlockJson);
+    response.then((Response response) {
+      if (response.body != null && response.body.isNotEmpty) {
+        print("Set device block response: ${response.body}");
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
