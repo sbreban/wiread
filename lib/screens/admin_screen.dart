@@ -57,6 +57,13 @@ class AdminWidgetState extends State<AdminWidget> {
                 new Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: new RaisedButton(
+                    onPressed: _topDevices,
+                    child: new Text("Top devices"),
+                  ),
+                ),
+                new Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: new RaisedButton(
                     onPressed: _logout,
                     child: new Text("Logout"),
                   ),
@@ -79,5 +86,9 @@ class AdminWidgetState extends State<AdminWidget> {
 
   void _domains() {
     router.navigateTo(context, "${Routes.domainsRoute}");
+  }
+
+  void _topDevices() {
+    router.navigateTo(context, "${Routes.topDevicesRoute}");
   }
 }

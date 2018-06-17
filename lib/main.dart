@@ -13,8 +13,11 @@ void main() {
     final router = new Router();
     Routes.configureRoutes(router);
     print("Init router: $router");
-    new Config(configJson['hostName'], configJson['port'], configJson['token'], router);
-    print("${Config.getInstance().hostName}:${Config.getInstance().port} ${Config.getInstance().token}");
+    var hostName = configJson['hostName'];
+    var port2 = configJson['port'];
+    var token = configJson['token'];
+    new Config(hostName, port2, token, router);
+    print("Configuration: ${Config.getInstance().hostName}:${Config.getInstance().port} ${Config.getInstance().token}");
     return runApp(new WireAd());
   }, onError: (error) => print(error));
 }

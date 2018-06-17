@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wiread/screens/add_domain_form.dart';
 import 'package:wiread/screens/admin_screen.dart';
+import 'package:wiread/screens/device_query_statistics_screen.dart';
 import 'package:wiread/screens/login_screen.dart';
 import 'package:wiread/screens/devices_screen.dart';
 import 'package:wiread/screens/domains_screen.dart';
@@ -59,4 +60,9 @@ var domainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<St
 var addDomainRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Add domain route params: $params");
   return new AddDomainForm(null);
+});
+
+var topDevicesRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Top devices route params: $params");
+  return new DeviceQueryStatisticsWidget();
 });

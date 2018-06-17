@@ -17,6 +17,7 @@ class Routes {
   static String addDomainRoute = "add_domain";
   static String editDomainRoute = "edit_domain";
   static String deleteDomainRoute = "delete_domain";
+  static String topDevicesRoute = "top_devices";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -31,6 +32,7 @@ class Routes {
     router.define(devicesRoute, handler: devicesRouteHandler);
     router.define(domainsRoute, handler: domainsRouteHandler);
     router.define(addDomainRoute, handler: addDomainRouteHandler);
+    router.define(topDevicesRoute, handler: topDevicesRouteHandler);
   }
 
 }
