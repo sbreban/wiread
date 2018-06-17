@@ -13,6 +13,7 @@ class Routes {
   static String addUserRoute = "add_user";
   static String devicesRoute = "devices";
   static String deleteDeviceRoute = "delete_device";
+  static String addDeviceRoute = "add_device";
   static String domainsRoute = "domains";
   static String addDomainRoute = "add_domain";
   static String editDomainRoute = "edit_domain";
@@ -31,6 +32,7 @@ class Routes {
     router.define(usersRoute, handler: usersRouteHandler);
     router.define(addUserRoute, handler: addUserRouteHandler);
     router.define(devicesRoute, handler: devicesRouteHandler);
+    router.define(addDeviceRoute, handler: addDeviceRouteHandler);
     router.define(domainsRoute, handler: domainsRouteHandler);
     router.define(addDomainRoute, handler: addDomainRouteHandler);
     router.define(topDevicesRoute, handler: topDevicesRouteHandler);

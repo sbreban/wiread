@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:wiread/screens/add_device_form.dart';
 import 'package:wiread/screens/add_domain_form.dart';
 import 'package:wiread/screens/admin_screen.dart';
 import 'package:wiread/screens/device_query_statistics_screen.dart';
@@ -51,6 +52,12 @@ var devicesRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<St
   print("Devices route params: $params");
   int userId = int.parse(params["userId"]?.first);
   return new DevicesWidget(userId);
+});
+
+var addDeviceRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Add device route params: $params");
+  int userId = int.parse(params["userId"]?.first);
+  return new AddDeviceForm(userId, null);
 });
 
 var domainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {

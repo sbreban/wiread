@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/device.dart';
+import 'package:wiread/screens/add_device_form.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
 import 'package:wiread/util/routes.dart';
@@ -66,13 +66,24 @@ class DevicesWidgetState extends State<DevicesWidget> {
     return new DeviceWidget(value, userId);
   }
 
+  addDevice() {
+    var router = Config.getInstance().router;
+    router.navigateTo(context, "${Routes.addDeviceRoute}?userId=$userId");
+  }
+
   @override
   Widget build(BuildContext context) {
     print("Build DevicesWidgetState");
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Devices'),
-        backgroundColor: Colors.black87,
+          title: new Text('Devices'),
+          backgroundColor: Colors.black87,
+          actions: [
+            new IconButton(
+              icon: new Icon(Icons.add),
+              onPressed: () => addDevice(),
+            ),
+          ]
       ),
       body: _buildDevicesList(),
     );
@@ -143,21 +154,16 @@ class DeviceWidgetState extends State<DeviceWidget> {
   }
 
   deleteDevice() {
-    RestDataSource restDataSource = new RestDataSource();
-    final Future<Response> response = restDataSource.post(
-        "${Routes.deleteDeviceRoute}/${device.id}", null);
-    response.then((Response response) {
-      Navigator.of(context).pop();
-      Router router = Config.getInstance().router;
-      router.navigateTo(context, "${Routes.devicesRoute}?userId=$userId");
-      if (response.body != null && response.body.isNotEmpty) {
-        print("Response: ${response.body}");
-      }
-    });
+    Navigator.of(context).pop();
   }
 
   editDevice() {
     Navigator.of(context).pop();
+    Navigator.of(context).push(new MaterialPageRoute(
+      builder: (context) {
+        return new AddDeviceForm(userId, device);
+      },
+    ));
   }
 
 }
