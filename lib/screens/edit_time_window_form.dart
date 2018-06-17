@@ -56,7 +56,7 @@ class EditTimeWindowFormState extends State<EditTimeWindowForm> {
   void submit(context) {
     var editedDeviceBlock = new DeviceBlock(deviceId: deviceBlock.deviceId,
         fromTime: "${_fromTime.hour}:${_fromTime.minute}",
-        toTime: deviceBlock.toTime,
+        toTime: "${_toTime.hour}:${_toTime.minute}",
         block: deviceBlock.block);
 
     var deviceBlockJson = json.encode(editedDeviceBlock.toMap());
