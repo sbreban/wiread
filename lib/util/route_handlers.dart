@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wiread/screens/add_domain_form.dart';
 import 'package:wiread/screens/admin_screen.dart';
 import 'package:wiread/screens/device_query_statistics_screen.dart';
+import 'package:wiread/screens/domain_query_statistics_screen.dart';
 import 'package:wiread/screens/login_screen.dart';
 import 'package:wiread/screens/devices_screen.dart';
 import 'package:wiread/screens/domains_screen.dart';
@@ -65,4 +66,9 @@ var addDomainRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<
 var topDevicesRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Top devices route params: $params");
   return new DeviceQueryStatisticsWidget();
+});
+
+var topDomainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Top domains route params: $params");
+  return new DomainQueryStatisticsWidget();
 });
