@@ -113,7 +113,7 @@ class DeviceWidgetState extends State<DeviceWidget> {
 
   factory DeviceWidgetState(Device device, int userId) {
     DeviceWidgetState domainWidgetState = DeviceWidgetState._default(device, userId);
-    domainWidgetState._block = 0;
+    domainWidgetState._block = device.block;
     return domainWidgetState;
   }
 
