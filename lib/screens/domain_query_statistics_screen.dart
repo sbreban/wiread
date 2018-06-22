@@ -17,7 +17,6 @@ class DomainQueryStatisticsWidget extends StatefulWidget {
 }
 
 class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget> {
-  final _biggerFont = const TextStyle(fontSize: 18.0);
   final Router router = Config.getInstance().router;
 
   Widget _buildStatisticsList() {
@@ -31,18 +30,36 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
           try {
             print("Top domains response data: ${snapshot.data.body}");
             final responseJson = json.decode(snapshot.data.body);
-            return new ListView.builder(
+            List<DomainQueryStatistic> domainQueryStatistics = [];
+            for (int index = 0; index < responseJson.length; index++) {
+              print("Domain query $index: ${responseJson[index]}");
+              if (responseJson[index] != null) {
+                DomainQueryStatistic domainQueryStatistic =
+                DomainQueryStatistic.fromJson(responseJson[index]);
+                domainQueryStatistics.add(domainQueryStatistic);
+              }
+            }
+            return new ListView(
                 padding: const EdgeInsets.all(16.0),
-                itemBuilder: (context, index) {
-                  if (index < responseJson.length) {
-                    print("Domain query $index: ${responseJson[index]}");
-                    if (responseJson[index] != null) {
-                      DomainQueryStatistic domainQueryStatistic =
-                      DomainQueryStatistic.fromJson(responseJson[index]);
-                      return _buildRow(domainQueryStatistic);
-                    }
-                  }
-                });
+                children: <Widget>[
+                  new PaginatedDataTable(
+                      header: const Text("Domains"),
+                      columns: <DataColumn>[
+                        new DataColumn(
+                            label: const Text('Position'),
+                            numeric: true
+                        ),
+                        new DataColumn(
+                          label: const Text('Queries'),
+                          numeric: true,
+                        ),
+                        new DataColumn(
+                          label: const Text('Name'),
+                        ),
+                      ],
+                      source: new DomainQueryStatisticDataSource(
+                          domainQueryStatistics))
+                ]);
           } catch (e) {
             return new Text("Error loading: " + e.toString());
           }
@@ -51,10 +68,6 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
         }
       },
     );
-  }
-
-  Widget _buildRow(DomainQueryStatistic domainQueryStatistic) {
-    return new DomainQueryStatisticWidget(domainQueryStatistic);
   }
 
   @override
@@ -69,35 +82,33 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
   }
 }
 
-class DomainQueryStatisticWidget extends StatefulWidget {
-  final DomainQueryStatistic domainQueryStatistic;
+class DomainQueryStatisticDataSource extends DataTableSource {
+  final List<DomainQueryStatistic> domainQueryStatistics;
 
-  DomainQueryStatisticWidget(this.domainQueryStatistic);
-
-  @override
-  State createState() {
-    return new DomainQueryStatisticState(domainQueryStatistic);
-  }
-}
-
-class DomainQueryStatisticState extends State<DomainQueryStatisticWidget> {
-  final DomainQueryStatistic domainQueryStatistic;
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  DomainQueryStatisticState(this.domainQueryStatistic);
+  DomainQueryStatisticDataSource(this.domainQueryStatistics);
 
   @override
-  Widget build(BuildContext context) {
-    return new ListTile(
-      title: new Text(
-        "${domainQueryStatistic.position} ${domainQueryStatistic.queries} "
-            "${domainQueryStatistic.name}",
-        style: _biggerFont,
-      ),
-      onLongPress: () {
-
-      },
+  DataRow getRow(int index) {
+    assert(index >= 0);
+    if (index >= domainQueryStatistics.length)
+      return null;
+    final DomainQueryStatistic domainQueryStatistic = domainQueryStatistics[index];
+    return new DataRow.byIndex(
+        index: index,
+        cells: <DataCell>[
+          new DataCell(new Text('${domainQueryStatistic.position}')),
+          new DataCell(new Text('${domainQueryStatistic.queries}')),
+          new DataCell(new Text('${domainQueryStatistic.name}')),
+        ]
     );
   }
 
+  @override
+  int get rowCount => domainQueryStatistics.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

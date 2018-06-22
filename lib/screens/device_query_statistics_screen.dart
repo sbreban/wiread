@@ -17,7 +17,6 @@ class DeviceQueryStatisticsWidget extends StatefulWidget {
 }
 
 class DeviceQueryStatisticsWidgetState extends State<DeviceQueryStatisticsWidget> {
-  final _biggerFont = const TextStyle(fontSize: 18.0);
   final Router router = Config.getInstance().router;
 
   Widget _buildStatisticsList() {
@@ -31,18 +30,39 @@ class DeviceQueryStatisticsWidgetState extends State<DeviceQueryStatisticsWidget
           try {
             print("Top devices response data: ${snapshot.data.body}");
             final responseJson = json.decode(snapshot.data.body);
-            return new ListView.builder(
+            List<DeviceQueryStatistic> deviceQueryStatistics = [];
+            for (int index = 0; index < responseJson.length; index++) {
+              print("Device query $index: ${responseJson[index]}");
+              if (responseJson[index] != null) {
+                DeviceQueryStatistic deviceQueryStatistic =
+                DeviceQueryStatistic.fromJson(responseJson[index]);
+                deviceQueryStatistics.add(deviceQueryStatistic);
+              }
+            }
+            return new ListView(
                 padding: const EdgeInsets.all(16.0),
-                itemBuilder: (context, index) {
-                  if (index < responseJson.length) {
-                    print("Device query $index: ${responseJson[index]}");
-                    if (responseJson[index] != null) {
-                      DeviceQueryStatistic deviceQueryStatistic =
-                      DeviceQueryStatistic.fromJson(responseJson[index]);
-                      return _buildRow(deviceQueryStatistic);
-                    }
-                  }
-                });
+                children: <Widget>[
+                  new PaginatedDataTable(
+                      header: const Text("Devices"),
+                      columns: <DataColumn>[
+                        new DataColumn(
+                            label: const Text('Position'),
+                            numeric: true
+                        ),
+                        new DataColumn(
+                          label: const Text('Queries'),
+                          numeric: true,
+                        ),
+                        new DataColumn(
+                          label: const Text('IP'),
+                        ),
+                        new DataColumn(
+                          label: const Text('Name'),
+                        )
+                      ],
+                      source: new DeviceQueryStatisticDataSource(
+                          deviceQueryStatistics))
+                ]);
           } catch (e) {
             return new Text("Error loading: " + e.toString());
           }
@@ -51,10 +71,6 @@ class DeviceQueryStatisticsWidgetState extends State<DeviceQueryStatisticsWidget
         }
       },
     );
-  }
-
-  Widget _buildRow(DeviceQueryStatistic deviceQueryStatistic) {
-    return new DeviceQueryStatisticWidget(deviceQueryStatistic);
   }
 
   @override
@@ -69,35 +85,34 @@ class DeviceQueryStatisticsWidgetState extends State<DeviceQueryStatisticsWidget
   }
 }
 
-class DeviceQueryStatisticWidget extends StatefulWidget {
-  final DeviceQueryStatistic deviceQueryStatistic;
+class DeviceQueryStatisticDataSource extends DataTableSource {
+  final List<DeviceQueryStatistic> deviceQueryStatistics;
 
-  DeviceQueryStatisticWidget(this.deviceQueryStatistic);
-
-  @override
-  State createState() {
-    return new DeviceQueryStatisticState(deviceQueryStatistic);
-  }
-}
-
-class DeviceQueryStatisticState extends State<DeviceQueryStatisticWidget> {
-  final DeviceQueryStatistic deviceQueryStatistic;
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  DeviceQueryStatisticState(this.deviceQueryStatistic);
+  DeviceQueryStatisticDataSource(this.deviceQueryStatistics);
 
   @override
-  Widget build(BuildContext context) {
-    return new ListTile(
-      title: new Text(
-        "${deviceQueryStatistic.position} ${deviceQueryStatistic.queries} "
-            "${deviceQueryStatistic.ip} ${deviceQueryStatistic.name}",
-        style: _biggerFont,
-      ),
-      onLongPress: () {
-
-      },
+  DataRow getRow(int index) {
+    assert(index >= 0);
+    if (index >= deviceQueryStatistics.length)
+      return null;
+    final DeviceQueryStatistic deviceQueryStatistic = deviceQueryStatistics[index];
+    return new DataRow.byIndex(
+        index: index,
+        cells: <DataCell>[
+          new DataCell(new Text('${deviceQueryStatistic.position}')),
+          new DataCell(new Text('${deviceQueryStatistic.queries}')),
+          new DataCell(new Text('${deviceQueryStatistic.ip}')),
+          new DataCell(new Text('${deviceQueryStatistic.name}')),
+        ]
     );
   }
 
+  @override
+  int get rowCount => deviceQueryStatistics.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }
