@@ -32,7 +32,7 @@ class UserCardState extends State<UserCard> {
     });
   }
 
-  Widget get dogImage {
+  Widget get userImage {
     var userAvatar = new Hero(
       tag: user,
       child: new Container(
@@ -95,7 +95,7 @@ class UserCardState extends State<UserCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                new Text(user.username,
+                new Text(user.name,
                     style: Theme.of(context).textTheme.headline),
                 new Text("Pre-K",
                     style: Theme.of(context).textTheme.subhead),
@@ -118,7 +118,7 @@ class UserCardState extends State<UserCard> {
           child: new Stack(
             children: <Widget>[
               userCard,
-              new Positioned(top: 7.5, child: dogImage),
+              new Positioned(top: 7.5, child: userImage),
             ],
           ),
         ),

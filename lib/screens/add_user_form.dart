@@ -44,7 +44,8 @@ class AddUserFormState extends State<AddUserForm> {
       print("New user JSON: $userJson");
 
       RestDataSource restDataSource = new RestDataSource();
-      final Future<Response> response = restDataSource.post("${Routes.addUserRoute}", userJson);
+      final Future<Response> response =
+          restDataSource.post("${Routes.addUserRoute}", userJson);
       response.then((Response response) {
         if (response.body != null && response.body.isNotEmpty) {
           print("Response: ${response.body}");
@@ -72,9 +73,17 @@ class AddUserFormState extends State<AddUserForm> {
               new Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: new TextFormField(
-                    controller: usernameController,
+                    controller: null,
                     decoration: new InputDecoration(
                       labelText: 'Name the user',
+                    )),
+              ),
+              new Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: new TextFormField(
+                    controller: usernameController,
+                    decoration: new InputDecoration(
+                      labelText: 'Username',
                     )),
               ),
               new Padding(
