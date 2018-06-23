@@ -63,7 +63,6 @@ class DomainsWidgetState extends State<DomainsWidget> {
     return new Scaffold(
       appBar: new AppBar(
           title: new Text('Domains'),
-          backgroundColor: Colors.black87,
           actions: [
             new IconButton(
               icon: new Icon(Icons.add),

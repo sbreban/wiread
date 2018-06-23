@@ -60,10 +60,8 @@ class AddUserFormState extends State<AddUserForm> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Add a new user'),
-        backgroundColor: Colors.black87,
       ),
       body: new Container(
-        color: Colors.black54,
         child: new Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,

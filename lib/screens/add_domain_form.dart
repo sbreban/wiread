@@ -84,7 +84,6 @@ class AddDomainFormState extends State<AddDomainForm> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Add a new domain'),
-        backgroundColor: Colors.black87,
       ),
       body: new Container(
         color: Colors.black54,

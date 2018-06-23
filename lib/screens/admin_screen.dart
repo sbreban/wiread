@@ -29,10 +29,8 @@ class AdminWidgetState extends State<AdminWidget> {
     return new Scaffold(
         appBar: new AppBar(
             title: new Text("Welcome, admin!"),
-            backgroundColor: Colors.black87,
             leading: new Container()),
         body: new Container(
-          color: Colors.black54,
           child: new Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 8.0,

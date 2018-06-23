@@ -78,7 +78,6 @@ class DeviceQueryStatisticsWidgetState extends State<DeviceQueryStatisticsWidget
     return new Scaffold(
       appBar: new AppBar(
           title: new Text('Top devices'),
-          backgroundColor: Colors.black87,
       ),
       body: _buildStatisticsList(),
     );

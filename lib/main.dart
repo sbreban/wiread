@@ -36,7 +36,13 @@ class WireAdState extends State<WireAd> {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'WireAd',
-      theme: new ThemeData(brightness: Brightness.dark),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.deepOrange,
+        accentColor: Colors.cyan,
+        buttonColor: Colors.blueAccent,
+        scaffoldBackgroundColor: Colors.grey[800]
+      ),
       onGenerateRoute: Config.getInstance().router.generator,
     );
   }

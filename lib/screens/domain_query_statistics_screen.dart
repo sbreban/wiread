@@ -75,7 +75,6 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Top domains'),
-        backgroundColor: Colors.black87,
       ),
       body: _buildStatisticsList(),
     );

@@ -79,7 +79,6 @@ class DevicesWidgetState extends State<DevicesWidget> {
     return new Scaffold(
       appBar: new AppBar(
           title: new Text('Devices'),
-          backgroundColor: Colors.black87,
           actions: [
             new IconButton(
               icon: new Icon(Icons.add),

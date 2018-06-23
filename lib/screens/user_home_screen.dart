@@ -34,11 +34,9 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Welcome, user!"),
-        backgroundColor: Colors.black87,
         leading: new Container(),
       ),
       body: new Container(
-        color: Colors.black54,
         child: new Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,

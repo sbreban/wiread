@@ -63,10 +63,8 @@ class RegisterDeviceFormState extends State<RegisterDeviceForm> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Add a new device'),
-        backgroundColor: Colors.black87,
       ),
       body: new Container(
-        color: Colors.black54,
         child: new Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,

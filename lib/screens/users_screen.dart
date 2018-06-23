@@ -72,7 +72,6 @@ class UsersWidgetState extends State<UsersWidget> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Users'),
-        backgroundColor: Colors.black87,
         actions: [
           new IconButton(
             icon: new Icon(Icons.add),
