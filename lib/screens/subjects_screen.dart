@@ -7,12 +7,12 @@ import 'package:wiread/models/subject.dart';
 import 'package:wiread/screens/subject_list_item.dart';
 import 'package:wiread/util/config.dart';
 
-class Subjects extends StatefulWidget {
+class SubjectsWidget extends StatefulWidget {
   @override
-  SubjectPageState createState() => new SubjectPageState();
+  SubjectsWidgetState createState() => new SubjectsWidgetState();
 }
 
-class SubjectPageState extends State<Subjects> {
+class SubjectsWidgetState extends State<SubjectsWidget> {
   List<Subject> subjects = new List();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
@@ -94,7 +94,7 @@ class SubjectPageState extends State<Subjects> {
               onRefresh: _handleRefresh,
               child: new ListView(
                   children: subjects.map((Subject subject) {
-                return new SubjectListItem(subject, this);
+                return new SubjectListItem(subject);
               }).toList())));
     } else {
       return new Scaffold(

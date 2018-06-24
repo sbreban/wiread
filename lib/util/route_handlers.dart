@@ -9,6 +9,7 @@ import 'package:wiread/screens/login_screen.dart';
 import 'package:wiread/screens/devices_screen.dart';
 import 'package:wiread/screens/domains_screen.dart';
 import 'package:wiread/screens/add_user_form.dart';
+import 'package:wiread/screens/quizzes_screen.dart';
 import 'package:wiread/screens/register_device_form.dart';
 import 'package:wiread/screens/subjects_screen.dart';
 import 'package:wiread/screens/user_home_screen.dart';
@@ -83,5 +84,11 @@ var topDomainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map
 
 var subjectsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Subjects route params: $params");
-  return new Subjects();
+  return new SubjectsWidget();
+});
+
+var quizzesRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Quizzes route params: $params");
+  String subjectName = params["subjectName"]?.first;
+  return new QuizzesWidget(subjectName);
 });

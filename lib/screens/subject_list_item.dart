@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wiread/models/subject.dart';
-import 'package:wiread/screens/subjects_screen.dart';
+import 'package:wiread/util/config.dart';
+import 'package:wiread/util/routes.dart';
 
 class SubjectListItem extends StatelessWidget {
   final Subject subject;
-  final SubjectPageState root;
 
-  SubjectListItem(this.subject, this.root);
+  SubjectListItem(this.subject);
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +27,7 @@ class SubjectListItem extends StatelessWidget {
                   trailing: new Text("${subject.numquizzes}",
                       style: new TextStyle(fontWeight: FontWeight.w500)),
                   onTap: () {
-//                    Navigator.push(
-//                        context,
-//                        new MaterialPageRoute(
-//                          builder: (BuildContext context) =>
-//                          new HomePage(subject.name, root),
-//                        ));
+                    Config.getInstance().router.navigateTo(context, "${Routes.quizzesRoute}?subjectName=${subject.name}");
                   }))
         ]));
   }
