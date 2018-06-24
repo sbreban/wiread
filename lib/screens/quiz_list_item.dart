@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wiread/models/quiz.dart';
+import 'package:wiread/screens/quiz_screen.dart';
 
 class QuizListItem extends StatelessWidget {
   final Quiz quiz;
@@ -36,12 +37,12 @@ class QuizListItem extends StatelessWidget {
                   ),
                   onTap: () {
                     if (quiz.unattempted.length > 0) {
-//                      Navigator.push(
-//                          context,
-//                          new MaterialPageRoute(
-//                            builder: (BuildContext context) =>
-//                            new QuizPage(quiz, home),
-//                          ));
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new QuizWidget(quiz),
+                          ));
                     } else {
                       showDialog<Null>(
                           context: context,

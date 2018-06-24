@@ -47,7 +47,7 @@ class QuizzesWidgetState extends State<QuizzesWidget> {
     if (response.statusCode == 200) {
       this.setState(() {
         quizzes.clear();
-        Map map = JSON.decode(response.body);
+        Map map = json.decode(response.body);
         List l = map["quizzes"];
         l.forEach((m) {
           Quiz q = Quiz.fromJson(m);
