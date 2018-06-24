@@ -6,13 +6,16 @@ class Config {
   final String token;
   final Router router;
 
+  final String quizUrl;
+  final String userToken;
+
   static Config _instance;
 
-  Config._internal(this.hostName, this.port, this.token, this.router);
+  Config._internal(this.hostName, this.port, this.token, this.router, this.quizUrl, this.userToken);
 
-  factory Config(String hostName, String port, String token, Router router) {
+  factory Config(String hostName, String port, String token, Router router, String quizUrl, String userToken) {
     if (_instance == null) {
-      _instance = Config._internal(hostName, port, token, router);
+      _instance = Config._internal(hostName, port, token, router, quizUrl, userToken);
     }
     return _instance;
   }

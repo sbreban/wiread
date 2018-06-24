@@ -10,7 +10,6 @@ import 'package:wiread/util/rest_data_source.dart';
 import 'package:wiread/util/routes.dart';
 
 class UserHomeWidget extends StatefulWidget {
-
   final int userId;
 
   UserHomeWidget(this.userId);
@@ -22,7 +21,6 @@ class UserHomeWidget extends StatefulWidget {
 }
 
 class UserHomeWidgetState extends State<UserHomeWidget> {
-
   final int userId;
   final Router router = Config.getInstance().router;
 
@@ -58,6 +56,13 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
               new Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: new RaisedButton(
+                  onPressed: _takeQuiz,
+                  child: new Text("Take quiz"),
+                ),
+              ),
+              new Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: new RaisedButton(
                   onPressed: _logout,
                   child: new Text("Logout"),
                 ),
@@ -69,11 +74,6 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
     );
   }
 
-  void _logout() {
-    AuthStateProvider authStateProvider = new AuthStateProvider();
-    authStateProvider.logout(context);
-  }
-
   void registerDevice(context) {
     final Wifistate connectivity = new Wifistate();
 
@@ -82,17 +82,17 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
 
       RestDataSource restDataSource = new RestDataSource();
       final Future<Response> response =
-      restDataSource.post("check_device_registration", result.mac);
+          restDataSource.post("check_device_registration", result.mac);
       response.then((Response response) {
         if (response.body != null && response.body.isNotEmpty) {
           print("Response: ${response.body}");
           if (response.body == "PRESENT") {
             Scaffold.of(context).showSnackBar(
-              new SnackBar(
-                backgroundColor: Colors.redAccent,
-                content: new Text('Device already registered!'),
-              ),
-            );
+                  new SnackBar(
+                    backgroundColor: Colors.redAccent,
+                    content: new Text('Device already registered!'),
+                  ),
+                );
           } else if (response.body == "MISSING") {
             router.navigateTo(
                 context, "${Routes.registerDeviceRoute}?userId=$userId");
@@ -100,5 +100,14 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
         }
       });
     });
+  }
+
+  void _takeQuiz() {
+    router.navigateTo(context, "${Routes.subjectsRoute}");
+  }
+
+  void _logout() {
+    AuthStateProvider authStateProvider = new AuthStateProvider();
+    authStateProvider.logout(context);
   }
 }

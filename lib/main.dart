@@ -14,9 +14,12 @@ void main() {
     Routes.configureRoutes(router);
     print("Init router: $router");
     var hostName = configJson['hostName'];
-    var port2 = configJson['port'];
+    var port = configJson['port'];
     var token = configJson['token'];
-    new Config(hostName, port2, token, router);
+    var quizUrl = configJson['quizUrl'];
+    var userToken = configJson['userToken'];
+
+    new Config(hostName, port, token, router, quizUrl, userToken);
     print("Configuration: ${Config.getInstance().hostName}:${Config.getInstance().port} ${Config.getInstance().token}");
     return runApp(new WireAd());
   }, onError: (error) => print(error));

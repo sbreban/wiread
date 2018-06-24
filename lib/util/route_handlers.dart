@@ -10,6 +10,7 @@ import 'package:wiread/screens/devices_screen.dart';
 import 'package:wiread/screens/domains_screen.dart';
 import 'package:wiread/screens/add_user_form.dart';
 import 'package:wiread/screens/register_device_form.dart';
+import 'package:wiread/screens/subjects_screen.dart';
 import 'package:wiread/screens/user_home_screen.dart';
 import 'package:wiread/screens/users_screen.dart';
 
@@ -78,4 +79,9 @@ var topDevicesRouteHandler = new Handler(handlerFunc: (BuildContext context, Map
 var topDomainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Top domains route params: $params");
   return new DomainQueryStatisticsWidget();
+});
+
+var subjectsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print("Subjects route params: $params");
+  return new Subjects();
 });

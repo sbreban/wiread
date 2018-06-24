@@ -23,6 +23,8 @@ class Routes {
   static String topDevicesRoute = "top_devices";
   static String topDomainsRoute = "top_domains";
 
+  static String subjectsRoute = "subjects";
+
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       print("ROUTE WAS NOT FOUND !!!");
@@ -39,6 +41,7 @@ class Routes {
     router.define(addDomainRoute, handler: addDomainRouteHandler);
     router.define(topDevicesRoute, handler: topDevicesRouteHandler);
     router.define(topDomainsRoute, handler: topDomainsRouteHandler);
+    router.define(subjectsRoute, handler: subjectsRouteHandler);
   }
 
 }
