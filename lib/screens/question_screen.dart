@@ -7,6 +7,7 @@ import 'package:wiread/models/answer.dart';
 import 'package:wiread/models/attempt.dart';
 import 'package:wiread/models/question.dart';
 import 'package:wiread/models/quiz.dart';
+import 'package:wiread/screens/congrats_screen.dart';
 import 'package:wiread/screens/rewards_screen.dart';
 import 'package:wiread/util/config.dart';
 
@@ -189,13 +190,12 @@ class QuestionWidgetState extends State<QuestionWidget> {
                                           new QuestionWidget(widget.quiz),
                                     ));
                               } else {
-//                                  Navigator.pushReplacement(
-//                                      context,
-//                                      new MaterialPageRoute(
-//                                        builder: (BuildContext context) =>
-//                                        new Congrats(
-//                                            widget.quiz, widget.home),
-//                                      ));
+                                Navigator.pushReplacement(
+                                    context,
+                                    new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new CongratsWidget(widget.quiz),
+                                    ));
                               }
                             }),
                         new Text("Correct answer!"),
@@ -218,13 +218,12 @@ class QuestionWidgetState extends State<QuestionWidget> {
                                               new QuestionWidget(widget.quiz),
                                         ));
                                   } else {
-//                                  Navigator.pushReplacement(
-//                                      context,
-//                                      new MaterialPageRoute(
-//                                        builder: (BuildContext context) =>
-//                                        new Congrats(
-//                                            widget.quiz, widget.home),
-//                                      ));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new CongratsWidget(widget.quiz),
+                                        ));
                                   }
                                 }),
                             new Text("Sorry, wrong answer!"),
