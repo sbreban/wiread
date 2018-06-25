@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wiread/models/quiz.dart';
 import 'package:wiread/screens/question_screen.dart';
+import 'package:wiread/screens/rewards_screen.dart';
 import 'package:wiread/util/config.dart';
 
 class QuizWidget extends StatefulWidget {
@@ -18,8 +19,7 @@ class QuizWidget extends StatefulWidget {
 
 class QuizWidgetState extends State<QuizWidget> {
   Quiz quiz;
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+
   String _accessToken;
   String _url;
   int _hearts;
@@ -53,15 +53,6 @@ class QuizWidgetState extends State<QuizWidget> {
     });
   }
 
-  Future<Null> _handleRefresh() {
-    final Completer<Null> completer = new Completer<Null>();
-    this.getData();
-    new Timer(const Duration(seconds: 3), () {
-      completer.complete(null);
-    });
-    return completer.future.then((_) {});
-  }
-
   @override
   Widget build(BuildContext context) {
     if (widget.quiz.numquestions > 0) {
@@ -76,13 +67,12 @@ class QuizWidgetState extends State<QuizWidget> {
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ]),
               onPressed: (() {
-//                    Navigator.pop(context);
-//                    Navigator.pushReplacement(
-//                        context,
-//                        new MaterialPageRoute(
-//                          builder: (BuildContext context) =>
-//                          new RewardsPage(widget.home.getRoot()),
-//                        ));
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (BuildContext context) => new RewardsWidget(),
+                    ));
               }),
             ),
           ]),

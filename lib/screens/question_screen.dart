@@ -7,6 +7,7 @@ import 'package:wiread/models/answer.dart';
 import 'package:wiread/models/attempt.dart';
 import 'package:wiread/models/question.dart';
 import 'package:wiread/models/quiz.dart';
+import 'package:wiread/screens/rewards_screen.dart';
 import 'package:wiread/util/config.dart';
 
 class QuestionWidget extends StatefulWidget {
@@ -130,13 +131,12 @@ class QuestionWidgetState extends State<QuestionWidget> {
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ]),
               onPressed: (() {
-//                    Navigator.pop(context);
-//                    Navigator.pushReplacement(
-//                        context,
-//                        new MaterialPageRoute(
-//                          builder: (BuildContext context) =>
-//                          new RewardsPage(widget.home.getRoot()),
-//                        ));
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (BuildContext context) => new RewardsWidget(),
+                    ));
               }),
             ),
           ]),
@@ -150,14 +150,14 @@ class QuestionWidgetState extends State<QuestionWidget> {
                       style: new TextStyle(
                           color: Colors.red, fontWeight: FontWeight.bold)),
                   onPressed: (() {
-//                            int skipMe = widget.quiz.unattempted.removeAt(0);
-//                            widget.quiz.unattempted.add(skipMe);
-//                            Navigator.pushReplacement(
-//                                context,
-//                                new MaterialPageRoute(
-//                                  builder: (BuildContext context) =>
-//                                  new QuestionWidget(widget.quiz, widget.home),
-//                                ));
+                    int skipMe = widget.quiz.unattempted.removeAt(0);
+                    widget.quiz.unattempted.add(skipMe);
+                    Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new QuestionWidget(widget.quiz),
+                        ));
                   }),
                 ),
                 new Container(
@@ -182,13 +182,12 @@ class QuestionWidgetState extends State<QuestionWidget> {
                             onPressed: () {
                               widget.quiz.unattempted.removeAt(0);
                               if (widget.quiz.unattempted.length > 0) {
-//                                  Navigator.pushReplacement(
-//                                      context,
-//                                      new MaterialPageRoute(
-//                                        builder: (BuildContext context) =>
-//                                        new QuestionWidget(
-//                                            widget.quiz, widget.home),
-//                                      ));
+                                Navigator.pushReplacement(
+                                    context,
+                                    new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new QuestionWidget(widget.quiz),
+                                    ));
                               } else {
 //                                  Navigator.pushReplacement(
 //                                      context,
@@ -212,13 +211,12 @@ class QuestionWidgetState extends State<QuestionWidget> {
                                 onPressed: () {
                                   widget.quiz.unattempted.removeAt(0);
                                   if (widget.quiz.unattempted.length > 0) {
-//                                  Navigator.pushReplacement(
-//                                      context,
-//                                      new MaterialPageRoute(
-//                                        builder: (BuildContext context) =>
-//                                        new QuestionWidget(
-//                                            widget.quiz, widget.home),
-//                                      ));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new QuestionWidget(widget.quiz),
+                                        ));
                                   } else {
 //                                  Navigator.pushReplacement(
 //                                      context,

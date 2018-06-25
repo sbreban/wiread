@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wiread/models/subject.dart';
+import 'package:wiread/screens/rewards_screen.dart';
 import 'package:wiread/screens/subject_list_item.dart';
 import 'package:wiread/util/config.dart';
 
@@ -118,10 +119,10 @@ class SubjectsWidgetState extends State<SubjectsWidget> {
   }
 
   void _reward() {
-//    Navigator.push(
-//        context,
-//        new MaterialPageRoute(
-//          builder: (BuildContext context) => new RewardsPage(this),
-//        ));
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+          builder: (BuildContext context) => new RewardsWidget(),
+        ));
   }
 }

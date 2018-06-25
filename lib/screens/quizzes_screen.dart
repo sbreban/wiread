@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wiread/models/quiz.dart';
 import 'package:wiread/screens/quiz_list_item.dart';
+import 'package:wiread/screens/rewards_screen.dart';
 import 'package:wiread/util/config.dart';
 
 class QuizzesWidget extends StatefulWidget {
@@ -74,10 +75,6 @@ class QuizzesWidgetState extends State<QuizzesWidget> {
     });
   }
 
-  int getHearts() {
-    return _hearts;
-  }
-
   Future<Null> _handleRefresh() {
     final Completer<Null> completer = new Completer<Null>();
     this.getData();
@@ -100,13 +97,12 @@ class QuizzesWidgetState extends State<QuizzesWidget> {
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ]),
               onPressed: (() {
-//                    Navigator.pop(context);
-//                    Navigator.push(
-//                        context,
-//                        new MaterialPageRoute(
-//                          builder: (BuildContext context) =>
-//                          new RewardsPage(widget.root),
-//                        ));
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (BuildContext context) => new RewardsWidget(),
+                    ));
               }),
             ),
           ]),
