@@ -11,7 +11,7 @@ class RewardWidget extends StatefulWidget {
 
   RewardWidget(this.reward);
 
-  Reward reward;
+  final Reward reward;
 
   @override
   RewardWidgetState createState() => new RewardWidgetState();
@@ -35,7 +35,7 @@ class RewardWidgetState extends State<RewardWidget> {
   getSharedPreferences() async {
     this.setState(() {
       _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().userToken;
+      _accessToken = Config.getInstance().user.token;
     });
     this.getData();
   }

@@ -5,11 +5,12 @@ class User {
   String name;
   String username;
   String password;
+  String token;
   int admin;
 
   String avatarUrl;
 
-  User({this.id, this.name, this.username, this.password, this.admin});
+  User({this.id, this.name, this.username, this.password, this.token, this.admin});
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
@@ -18,6 +19,7 @@ class User {
     map["Name"] = name;
     map["Username"] = username;
     map["Password"] = password;
+    map["Token"] = token;
     map["Admin"] = admin;
 
     return map;
@@ -29,7 +31,8 @@ class User {
       name: json['Name'],
       username: json['Username'],
       password: json['Password'],
-      admin: json['Admin'],
+      token: json['Token'],
+      admin: json['Admin']
     );
   }
 

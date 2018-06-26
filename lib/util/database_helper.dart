@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wiread/models/user.dart';
+import 'package:wiread/util/config.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = new DatabaseHelper.internal();
@@ -32,7 +33,7 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-        "CREATE TABLE User(Id INTEGER PRIMARY KEY, Name TEXT, Username TEXT, Password TEXT, Admin INTEGER)");
+        "CREATE TABLE User(Id INTEGER PRIMARY KEY, Name TEXT, Username TEXT, Password TEXT, Token TEXT, Admin INTEGER)");
     print("Created tables");
   }
 
@@ -55,6 +56,7 @@ class DatabaseHelper {
     User user;
     if (res != null && res.length > 0 && res[0] != null && res[0]["Id"] != null) {
       user = User.fromJson(res[0]);
+      Config.getInstance().user = user;
     }
     return user;
   }

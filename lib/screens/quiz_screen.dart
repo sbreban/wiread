@@ -32,7 +32,7 @@ class QuizWidgetState extends State<QuizWidget> {
   getSharedPreferences() async {
     this.setState(() {
       _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().userToken;
+      _accessToken = Config.getInstance().user.token;
     });
     this.getData();
   }

@@ -1,4 +1,5 @@
 import 'package:fluro/fluro.dart';
+import 'package:wiread/models/user.dart';
 
 class Config {
   final String hostName;
@@ -7,15 +8,16 @@ class Config {
   final Router router;
 
   final String quizUrl;
-  final String userToken;
+
+  User user;
 
   static Config _instance;
 
-  Config._internal(this.hostName, this.port, this.token, this.router, this.quizUrl, this.userToken);
+  Config._internal(this.hostName, this.port, this.token, this.router, this.quizUrl);
 
-  factory Config(String hostName, String port, String token, Router router, String quizUrl, String userToken) {
+  factory Config(String hostName, String port, String token, Router router, String quizUrl) {
     if (_instance == null) {
-      _instance = Config._internal(hostName, port, token, router, quizUrl, userToken);
+      _instance = Config._internal(hostName, port, token, router, quizUrl);
     }
     return _instance;
   }

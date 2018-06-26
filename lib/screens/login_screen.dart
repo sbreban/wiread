@@ -54,6 +54,7 @@ class LoginScreenState extends State<LoginScreen>
   onAuthStateChanged(AuthState state, User user) {
     if(state == AuthState.LOGGED_IN) {
       var router = Config.getInstance().router;
+      Config.getInstance().user = user;
       print("Router: $router");
       if (user.admin == 0) {
         router.navigateTo(context, "${Routes.adminRoute}?userId=${user.id}", replace: true);

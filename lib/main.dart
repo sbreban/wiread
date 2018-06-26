@@ -17,9 +17,8 @@ void main() {
     var port = configJson['port'];
     var token = configJson['token'];
     var quizUrl = configJson['quizUrl'];
-    var userToken = configJson['userToken'];
 
-    new Config(hostName, port, token, router, quizUrl, userToken);
+    new Config(hostName, port, token, router, quizUrl);
     print("Configuration: ${Config.getInstance().hostName}:${Config.getInstance().port} ${Config.getInstance().token}");
     return runApp(new WireAd());
   }, onError: (error) => print(error));

@@ -29,7 +29,7 @@ class SubjectsWidgetState extends State<SubjectsWidget> {
   getSharedPreferences() async {
     this.setState(() {
       _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().userToken;
+      _accessToken = Config.getInstance().user.token;
     });
   }
 
