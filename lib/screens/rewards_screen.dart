@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:wiread/models/reward.dart';
 import 'package:wiread/screens/reward_list_item.dart';
-import 'package:wiread/util/config.dart';
+import 'package:wiread/util/rest_data_source.dart';
 
 class RewardsWidget extends StatefulWidget {
   RewardsWidget();
@@ -16,37 +16,27 @@ class RewardsWidget extends StatefulWidget {
 
 class RewardsWidgetState extends State<RewardsWidget> {
   List<Reward> rewards = new List();
-  String _accessToken;
-  String _url;
+
   int _hearts;
 
   @override
   void initState() {
-    if (mounted) {
-      this.getSharedPreferences();
-    }
-  }
-
-  getSharedPreferences() async {
-    this.setState(() {
-      _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().user.token;
-    });
+    super.initState();
     this.getData();
   }
 
-  Future<Null> getData() async {
-    http.Response response = await http.post(
-        Uri.encodeFull("${_url}/api/rewards.json"),
-        body: {"access_token": _accessToken},
-        headers: {"Accept": "application/json"});
-    this.setState(() {
-      rewards.clear();
-      Map map = json.decode(response.body);
-      List l = map["rewards"];
-      this.setHearts(map["hearts"]);
-      l.forEach((m) {
-        rewards.add(Reward.fromJson(m));
+  void getData() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.getRewards();
+    response.then((Response response) {
+      this.setState(() {
+        rewards.clear();
+        Map map = json.decode(response.body);
+        List l = map["rewards"];
+        this.setHearts(map["hearts"]);
+        l.forEach((m) {
+          rewards.add(Reward.fromJson(m));
+        });
       });
     });
   }

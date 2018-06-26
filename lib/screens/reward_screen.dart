@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:wiread/models/redemption.dart';
 import 'package:wiread/models/reward.dart';
-import 'package:wiread/util/config.dart';
+import 'package:wiread/util/rest_data_source.dart';
 
 class RewardWidget extends StatefulWidget {
 
@@ -21,49 +21,41 @@ class RewardWidgetState extends State<RewardWidget> {
   Reward reward;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
-  String _accessToken;
-  String _url;
+
   int _hearts;
   Redemption redemption;
   bool _confirm = false;
 
   @override
   void initState() {
-    this.getSharedPreferences();
-  }
-
-  getSharedPreferences() async {
-    this.setState(() {
-      _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().user.token;
-    });
+    super.initState();
     this.getData();
   }
 
-  Future<Null> getData() async {
-    http.Response response = await http.post(
-        Uri.encodeFull("${_url}/api/rewards/${widget.reward.id}.json"),
-        body: {"access_token": _accessToken},
-        headers: {"Accept": "application/json"});
-    this.setState(() {
-      Map map = json.decode(response.body);
-      reward = Reward.fromJson(map);
-      _hearts = map["hearts"].toInt();
+  void getData() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.getReward(widget.reward.id);
+    response.then((Response response) {
+      this.setState(() {
+        Map map = json.decode(response.body);
+        reward = Reward.fromJson(map);
+        _hearts = map["hearts"].toInt();
+      });
     });
   }
 
   Future<Null> _redeem() async {
-    http.Response response = await http.post(
-        Uri.encodeFull("${_url}/api/redemptions.json"),
-        body: {"access_token": _accessToken, "reward_id": reward.id.toString()},
-        headers: {"Accept": "application/json"});
-    if (response.statusCode == 201) {
-      Map map = json.decode(response.body);
-      redemption = Redemption.fromJson(map);
-    } else {
-      Map map = json.decode(response.body);
-      print("${map['message']}");
-    }
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.redeem(widget.reward.id);
+    response.then((Response response) {
+      if (response.statusCode == 201) {
+        Map map = json.decode(response.body);
+        redemption = Redemption.fromJson(map);
+      } else {
+        Map map = json.decode(response.body);
+        print("${map['message']}");
+      }
+    });
   }
 
   @override

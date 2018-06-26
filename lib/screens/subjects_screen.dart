@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:wiread/models/subject.dart';
 import 'package:wiread/screens/rewards_screen.dart';
 import 'package:wiread/screens/subject_list_item.dart';
-import 'package:wiread/util/config.dart';
+import 'package:wiread/util/rest_data_source.dart';
 
 class SubjectsWidget extends StatefulWidget {
   @override
@@ -17,34 +17,22 @@ class SubjectsWidgetState extends State<SubjectsWidget> {
   List<Subject> subjects = new List();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
-  String _accessToken;
-  String _url;
+
   int _hearts;
 
   @override
   void initState() {
+    super.initState();
     this.getData();
   }
 
-  getSharedPreferences() async {
-    this.setState(() {
-      _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().user.token;
-    });
-  }
-
-  Future<Null> getData() async {
-    await this.getSharedPreferences();
-    this.setState(() {
-      subjects.clear();
-    });
-    if (_url != null && _accessToken != null) {
-      http.Response response = await http.post(
-          Uri.encodeFull("${_url}/api/subjects.json"),
-          body: {"access_token": _accessToken},
-          headers: {"Accept": "application/json"});
+  void getData() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.getSubjects();
+    response.then((Response response) {
       if (response.statusCode == 200) {
         this.setState(() {
+          subjects.clear();
           Map map = json.decode(response.body);
           List l = map["subjects"];
           _hearts = map["hearts"];
@@ -53,7 +41,7 @@ class SubjectsWidgetState extends State<SubjectsWidget> {
           });
         });
       }
-    }
+    });
   }
 
   Future<Null> _handleRefresh() {

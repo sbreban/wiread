@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:wiread/models/quiz.dart';
 import 'package:wiread/screens/quiz_list_item.dart';
 import 'package:wiread/screens/rewards_screen.dart';
-import 'package:wiread/util/config.dart';
+import 'package:wiread/util/rest_data_source.dart';
 
 class QuizzesWidget extends StatefulWidget {
-  QuizzesWidget(this.title);
+  QuizzesWidget(this.subject);
 
-  final String title;
+  final String subject;
 
   @override
   QuizzesWidgetState createState() => new QuizzesWidgetState();
@@ -19,48 +19,39 @@ class QuizzesWidget extends StatefulWidget {
 
 class QuizzesWidgetState extends State<QuizzesWidget> {
   List<Quiz> quizzes = new List();
+
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
-  String _accessToken;
-  String _url;
+
   int _hearts;
 
   @override
   void initState() {
-    this.getSharedPreferences();
-  }
-
-  Future<Null> getSharedPreferences() async {
-    this.setState(() {
-      _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().user.token;
-    });
+    super.initState();
     this.getData();
   }
 
-  Future<Null> getData() async {
-    http.Response response = await http.post(
-        Uri.encodeFull("${_url}/api/quizzes.json"),
-        body: widget.title == "All Quizzes"
-            ? {"access_token": _accessToken}
-            : {"access_token": _accessToken, "subject": widget.title},
-        headers: {"Accept": "application/json"});
-    if (response.statusCode == 200) {
-      this.setState(() {
-        quizzes.clear();
-        Map map = json.decode(response.body);
-        List l = map["quizzes"];
-        l.forEach((m) {
-          Quiz q = Quiz.fromJson(m);
-          q.unattempted = new List<int>();
-          m["unattempted"].forEach((n) {
-            q.unattempted.add(n);
+  void getData() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.getQuizzes(this.widget.subject);
+    response.then((Response response) {
+      if (response.statusCode == 200) {
+        this.setState(() {
+          quizzes.clear();
+          Map map = json.decode(response.body);
+          List l = map["quizzes"];
+          l.forEach((m) {
+            Quiz q = Quiz.fromJson(m);
+            q.unattempted = new List<int>();
+            m["unattempted"].forEach((n) {
+              q.unattempted.add(n);
+            });
+            quizzes.add(q);
           });
-          quizzes.add(q);
+          _hearts = map["hearts"];
         });
-        _hearts = map["hearts"];
-      });
-    }
+      }
+    });
   }
 
   addHearts(int points) {
@@ -88,7 +79,7 @@ class QuizzesWidgetState extends State<QuizzesWidget> {
   Widget build(BuildContext context) {
     if (quizzes.length > 0) {
       return new Scaffold(
-          appBar: new AppBar(title: new Text(widget.title), actions: <Widget>[
+          appBar: new AppBar(title: new Text(widget.subject), actions: <Widget>[
             new FlatButton(
               child: new Row(children: <Widget>[
                 new Icon(Icons.favorite, color: Colors.red),
@@ -116,7 +107,7 @@ class QuizzesWidgetState extends State<QuizzesWidget> {
     } else {
       return new Scaffold(
           appBar: new AppBar(
-            title: new Text(widget.title),
+            title: new Text(widget.subject),
           ),
           body: new Container(
               child: new Center(
@@ -124,7 +115,7 @@ class QuizzesWidgetState extends State<QuizzesWidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                 new Icon(Icons.favorite),
-                new Text("Sorry, no '${widget.title}' quizzes!"),
+                new Text("Sorry, no '${widget.subject}' quizzes!"),
               ]))));
     }
   }

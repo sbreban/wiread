@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:wiread/models/quiz.dart';
 import 'package:wiread/screens/question_screen.dart';
 import 'package:wiread/screens/rewards_screen.dart';
-import 'package:wiread/util/config.dart';
+import 'package:wiread/util/rest_data_source.dart';
 
 class QuizWidget extends StatefulWidget {
   QuizWidget(this.quiz);
@@ -20,36 +20,27 @@ class QuizWidget extends StatefulWidget {
 class QuizWidgetState extends State<QuizWidget> {
   Quiz quiz;
 
-  String _accessToken;
-  String _url;
   int _hearts;
 
   @override
   void initState() {
-    this.getSharedPreferences();
-  }
-
-  getSharedPreferences() async {
-    this.setState(() {
-      _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().user.token;
-    });
+    super.initState();
     this.getData();
   }
 
-  Future<Null> getData() async {
-    http.Response response = await http.post(
-        Uri.encodeFull("${_url}/api/quizzes/${widget.quiz.id}.json"),
-        body: {"access_token": _accessToken},
-        headers: {"Accept": "application/json"});
-    this.setState(() {
-      Map map = json.decode(response.body);
-      Quiz quiz = Quiz.fromJson(map);
-      quiz.unattempted = new List<int>();
-      map["unattempted"].forEach((n) {
-        quiz.unattempted.add(n);
+  void getData() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.getQuiz(widget.quiz.id);
+    response.then((Response response) {
+      this.setState(() {
+        Map map = json.decode(response.body);
+        Quiz quiz = Quiz.fromJson(map);
+        quiz.unattempted = new List<int>();
+        map["unattempted"].forEach((n) {
+          quiz.unattempted.add(n);
+        });
+        _hearts = map["hearts"];
       });
-      _hearts = map["hearts"];
     });
   }
 

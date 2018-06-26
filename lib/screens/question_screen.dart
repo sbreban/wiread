@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:wiread/models/answer.dart';
 import 'package:wiread/models/attempt.dart';
 import 'package:wiread/models/question.dart';
 import 'package:wiread/models/quiz.dart';
 import 'package:wiread/screens/congrats_screen.dart';
 import 'package:wiread/screens/rewards_screen.dart';
-import 'package:wiread/util/config.dart';
+import 'package:wiread/util/rest_data_source.dart';
 
 class QuestionWidget extends StatefulWidget {
   QuestionWidget(this.quiz);
@@ -25,8 +25,7 @@ class QuestionWidgetState extends State<QuestionWidget> {
   List answers;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
-  String _accessToken;
-  String _url;
+
   bool visibility = false;
   Answer guess = null;
   Attempt _attempt = null;
@@ -34,55 +33,44 @@ class QuestionWidgetState extends State<QuestionWidget> {
 
   @override
   void initState() {
-    this.getSharedPreferences();
-  }
-
-  getSharedPreferences() async {
-    this.setState(() {
-      _url = Config.getInstance().quizUrl;
-      _accessToken = Config.getInstance().user.token;
-    });
+    super.initState();
     this.getData();
   }
 
-  Future<Null> getData() async {
-    http.Response response = await http.post(
-        Uri.encodeFull(
-            "${_url}/api/questions/${widget.quiz.unattempted[0]}.json"),
-        body: {"access_token": _accessToken},
-        headers: {"Accept": "application/json"});
-    this.setState(() {
-      Map map = json.decode(response.body);
-      question = Question.fromJson(map);
-      answers = new List();
-      map["answers"].forEach((answer) {
-        answers.add(Answer.fromJson(answer));
+  void getData() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.getQuestion(
+        widget.quiz.unattempted[0]);
+    response.then((Response response) {
+      this.setState(() {
+        Map map = json.decode(response.body);
+        question = Question.fromJson(map);
+        answers = new List();
+        map["answers"].forEach((answer) {
+          answers.add(Answer.fromJson(answer));
+        });
+        _hearts = map["hearts"];
       });
-      _hearts = map["hearts"];
     });
   }
 
   Future<Null> _makeAttempt() async {
-    http.Response response =
-        await http.post(Uri.encodeFull("${_url}/api/attempts.json"), body: {
-      "access_token": _accessToken,
-      "quiz_id": widget.quiz.id.toString(),
-      "question_id": question.id.toString(),
-      "answer_id": guess.id.toString()
-    }, headers: {
-      "Accept": "application/json"
-    });
-    this.setState(() {
-      Map map = json.decode(response.body);
-      _attempt = Attempt.fromJson(map);
-      answers.forEach((a) {
-        if (a.id == question.answer_id) {
-          a.color = Colors.green;
-        } else if (a.id == guess.id) {
-          a.color = Colors.red;
-        }
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.makeAttempt(
+        widget.quiz.id, question.id, guess.id);
+    response.then((Response response) {
+      this.setState(() {
+        Map map = json.decode(response.body);
+        _attempt = Attempt.fromJson(map);
+        answers.forEach((a) {
+          if (a.id == question.answer_id) {
+            a.color = Colors.green;
+          } else if (a.id == guess.id) {
+            a.color = Colors.red;
+          }
+        });
+        _hearts = map["hearts"];
       });
-      _hearts = map["hearts"];
     });
   }
 
