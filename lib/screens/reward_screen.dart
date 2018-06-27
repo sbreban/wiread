@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:wifistate/wifistate.dart';
 import 'package:wiread/models/redemption.dart';
 import 'package:wiread/models/reward.dart';
+import 'package:wiread/models/user_reward.dart';
 import 'package:wiread/util/rest_data_source.dart';
 
 class RewardWidget extends StatefulWidget {
@@ -51,6 +53,19 @@ class RewardWidgetState extends State<RewardWidget> {
       if (response.statusCode == 201) {
         Map map = json.decode(response.body);
         redemption = Redemption.fromJson(map);
+        print("Reward give: $redemption");
+
+        final Wifistate connectivity = new Wifistate();
+
+        connectivity.checkConnectivity().then((ConnectivityResult result) {
+          print("Mac address ${result.mac}");
+
+          var userReward = new UserReward(deviceMAC: result.mac, rewardMinutes: int.parse(reward.name));
+          var userRewardJson = json.encode(userReward.toMap());
+          print("User reward JSON: $userRewardJson");
+          restDataSource.post("reward", userRewardJson);
+        });
+
       } else {
         Map map = json.decode(response.body);
         print("${map['message']}");
