@@ -33,7 +33,7 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-        "CREATE TABLE User(Id INTEGER PRIMARY KEY, Name TEXT, Username TEXT, Password TEXT, Token TEXT, Admin INTEGER)");
+        "CREATE TABLE User(Id INTEGER PRIMARY KEY, Name TEXT, Username TEXT, Password TEXT, Token TEXT, Admin INTEGER, AgeBracket TEXT)");
     print("Created tables");
   }
 

@@ -97,7 +97,7 @@ class UserCardState extends State<UserCard> {
               children: <Widget>[
                 new Text(user.name,
                     style: Theme.of(context).textTheme.headline),
-                new Text("Pre-K",
+                new Text(user.ageBracket,
                     style: Theme.of(context).textTheme.subhead),
               ],
             ),
