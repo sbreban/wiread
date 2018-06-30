@@ -39,6 +39,12 @@ flutter:
     - assets/config.json
     - assets/login.jpg
     - assets/avatar.png
+    - assets/domain.png
+    - assets/devices.png
+    - assets/top.png
+    - assets/logout.png
+    - assets/device.png
+    - assets/quiz.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

@@ -44,6 +44,7 @@ class AdminWidgetState extends State<AdminWidget> {
                       mainAxisSize: MainAxisSize.min,
                       verticalDirection: VerticalDirection.down,
                       children: <Widget>[
+                        new Image(image: new AssetImage("assets/avatar.png")),
                         new Center(
                           child: new Text("Users"),
                         )
@@ -58,6 +59,7 @@ class AdminWidgetState extends State<AdminWidget> {
                       mainAxisSize: MainAxisSize.min,
                       verticalDirection: VerticalDirection.down,
                       children: <Widget>[
+                        new Image(image: new AssetImage("assets/domain.png")),
                         new Center(
                           child: new Text("Domains"),
                         )
@@ -72,6 +74,7 @@ class AdminWidgetState extends State<AdminWidget> {
                       mainAxisSize: MainAxisSize.min,
                       verticalDirection: VerticalDirection.down,
                       children: <Widget>[
+                        new Image(image: new AssetImage("assets/devices.png")),
                         new Center(
                           child: new Text("Top devices"),
                         )
@@ -86,6 +89,7 @@ class AdminWidgetState extends State<AdminWidget> {
                       mainAxisSize: MainAxisSize.min,
                       verticalDirection: VerticalDirection.down,
                       children: <Widget>[
+                        new Image(image: new AssetImage("assets/top.png")),
                         new Center(
                           child: new Text("Top domains"),
                         )
@@ -100,6 +104,7 @@ class AdminWidgetState extends State<AdminWidget> {
                       mainAxisSize: MainAxisSize.min,
                       verticalDirection: VerticalDirection.down,
                       children: <Widget>[
+                        new Image(image: new AssetImage("assets/logout.png")),
                         new Center(
                           child: new Text("Logout"),
                         )

@@ -52,6 +52,7 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
                         mainAxisSize: MainAxisSize.min,
                         verticalDirection: VerticalDirection.down,
                         children: <Widget>[
+                          new Image(image: new AssetImage("assets/device.png")),
                           new Center(
                             child: new Text("Register device"),
                           )
@@ -66,6 +67,7 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
                         mainAxisSize: MainAxisSize.min,
                         verticalDirection: VerticalDirection.down,
                         children: <Widget>[
+                          new Image(image: new AssetImage("assets/quiz.png")),
                           new Center(
                             child: new Text("Take quiz"),
                           )
@@ -80,6 +82,7 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
                         mainAxisSize: MainAxisSize.min,
                         verticalDirection: VerticalDirection.down,
                         children: <Widget>[
+                          new Image(image: new AssetImage("assets/logout.png")),
                           new Center(
                             child: new Text("Logout"),
                           )
