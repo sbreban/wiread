@@ -30,48 +30,64 @@ class UserHomeWidgetState extends State<UserHomeWidget> {
   Widget build(BuildContext context) {
     print("Build UserHomeWidgetState");
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Welcome, user!"),
-        leading: new Container(),
-      ),
-      body: new Container(
-        child: new Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 32.0,
-          ),
-          child: new Column(
-            children: [
-              new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new Builder(
-                  builder: (context) {
-                    return new RaisedButton(
-                      onPressed: () => registerDevice(context),
-                      child: new Text("Register device"),
-                    );
-                  },
-                ),
-              ),
-              new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new RaisedButton(
-                  onPressed: _takeQuiz,
-                  child: new Text("Take quiz"),
-                ),
-              ),
-              new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new RaisedButton(
-                  onPressed: _logout,
-                  child: new Text("Logout"),
-                ),
-              ),
-            ],
-          ),
+        appBar: new AppBar(
+          title: new Text("Welcome, user!"),
+          leading: new Container(),
         ),
-      ),
-    );
+        body: new Builder(builder: (BuildContext context) {
+          return new GridView.count(
+            primary: true,
+            padding: const EdgeInsets.all(1.0),
+            crossAxisCount: 2,
+            childAspectRatio: 0.85,
+            mainAxisSpacing: 1.0,
+            crossAxisSpacing: 1.0,
+            children: <Widget>[
+              new InkWell(
+                  onTap: () => registerDevice(context),
+                  child: new Card(
+                      elevation: 1.5,
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        verticalDirection: VerticalDirection.down,
+                        children: <Widget>[
+                          new Center(
+                            child: new Text("Register device"),
+                          )
+                        ],
+                      ))),
+              new InkWell(
+                  onTap: _takeQuiz,
+                  child: new Card(
+                      elevation: 1.5,
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        verticalDirection: VerticalDirection.down,
+                        children: <Widget>[
+                          new Center(
+                            child: new Text("Take quiz"),
+                          )
+                        ],
+                      ))),
+              new InkWell(
+                  onTap: _logout,
+                  child: new Card(
+                      elevation: 1.5,
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        verticalDirection: VerticalDirection.down,
+                        children: <Widget>[
+                          new Center(
+                            child: new Text("Logout"),
+                          )
+                        ],
+                      )))
+            ],
+          );
+        }));
   }
 
   void registerDevice(context) {

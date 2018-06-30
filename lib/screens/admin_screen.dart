@@ -5,7 +5,6 @@ import 'package:wiread/util/config.dart';
 import 'package:wiread/util/routes.dart';
 
 class AdminWidget extends StatefulWidget {
-
   final int userId;
 
   AdminWidget(this.userId);
@@ -17,7 +16,6 @@ class AdminWidget extends StatefulWidget {
 }
 
 class AdminWidgetState extends State<AdminWidget> {
-
   final int userId;
   final Router router = Config.getInstance().router;
 
@@ -28,56 +26,87 @@ class AdminWidgetState extends State<AdminWidget> {
     print("Build AdminWidgetState");
     return new Scaffold(
         appBar: new AppBar(
-            title: new Text("Welcome, admin!"),
-            leading: new Container()),
-        body: new Container(
-          child: new Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 8.0,
-              horizontal: 32.0,
-            ),
-            child: new Column(
-              children: [
-                new Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: new RaisedButton(
-                    onPressed: _users,
-                    child: new Text("Users"),
-                  ),
-                ),
-                new Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: new RaisedButton(
-                    onPressed: _domains,
-                    child: new Text("Domains"),
-                  ),
-                ),
-                new Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: new RaisedButton(
-                    onPressed: _topDevices,
-                    child: new Text("Top devices"),
-                  ),
-                ),
-                new Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: new RaisedButton(
-                    onPressed: _topDomains,
-                    child: new Text("Top domains"),
-                  ),
-                ),
-                new Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: new RaisedButton(
-                    onPressed: _logout,
-                    child: new Text("Logout"),
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
-    );
+            title: new Text("Welcome, admin!"), leading: new Container()),
+        body: new GridView.count(
+          primary: true,
+          padding: const EdgeInsets.all(1.0),
+          crossAxisCount: 2,
+          childAspectRatio: 0.85,
+          mainAxisSpacing: 1.0,
+          crossAxisSpacing: 1.0,
+          children: <Widget>[
+            new InkWell(
+                onTap: _users,
+                child: new Card(
+                    elevation: 1.5,
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      verticalDirection: VerticalDirection.down,
+                      children: <Widget>[
+                        new Center(
+                          child: new Text("Users"),
+                        )
+                      ],
+                    ))),
+            new InkWell(
+                onTap: _domains,
+                child: new Card(
+                    elevation: 1.5,
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      verticalDirection: VerticalDirection.down,
+                      children: <Widget>[
+                        new Center(
+                          child: new Text("Domains"),
+                        )
+                      ],
+                    ))),
+            new InkWell(
+                onTap: _topDevices,
+                child: new Card(
+                    elevation: 1.5,
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      verticalDirection: VerticalDirection.down,
+                      children: <Widget>[
+                        new Center(
+                          child: new Text("Top devices"),
+                        )
+                      ],
+                    ))),
+            new InkWell(
+                onTap: _topDomains,
+                child: new Card(
+                    elevation: 1.5,
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      verticalDirection: VerticalDirection.down,
+                      children: <Widget>[
+                        new Center(
+                          child: new Text("Top domains"),
+                        )
+                      ],
+                    ))),
+            new InkWell(
+                onTap: _logout,
+                child: new Card(
+                    elevation: 1.5,
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      verticalDirection: VerticalDirection.down,
+                      children: <Widget>[
+                        new Center(
+                          child: new Text("Logout"),
+                        )
+                      ],
+                    )))
+          ],
+        ));
   }
 
   void _logout() {
