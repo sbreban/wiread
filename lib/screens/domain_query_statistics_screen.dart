@@ -8,6 +8,7 @@ import 'package:wiread/models/domain_query_statistic.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
 import 'package:wiread/util/routes.dart';
+import 'package:intl/intl.dart';
 
 class DomainQueryStatisticsWidget extends StatefulWidget {
 
@@ -51,7 +52,7 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
                   domainQueryStatistics.add(domainQueryStatistic);
                 }
               }
-              return buildListView(domainQueryStatistics);
+              return buildListView(domainQueryStatistics, false);
             } catch (e) {
               return new Text("Error loading: " + e.toString());
             }
@@ -61,7 +62,7 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
         },
       );
     } else {
-      return buildListView(domainQueryStatistics);
+      return buildListView(domainQueryStatistics, true);
     }
   }
 
@@ -75,13 +76,17 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
     );
   }
 
-  Widget buildListView(List<DomainQueryStatistic> domainQueryStatistics) {
+  Widget buildListView(List<DomainQueryStatistic> domainQueryStatistics, bool showDates) {
     return new ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           new PaginatedDataTable(
               header: const Text("Domains"),
               columns: <DataColumn>[
+                showDates ? new DataColumn(
+                    label: const Text('Date'),
+                    numeric: true
+                ) :
                 new DataColumn(
                     label: const Text('Position'),
                     numeric: true
@@ -95,15 +100,17 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
                 ),
               ],
               source: new DomainQueryStatisticDataSource(
-                  domainQueryStatistics))
+                  domainQueryStatistics, showDates))
         ]);
   }
 }
 
 class DomainQueryStatisticDataSource extends DataTableSource {
   final List<DomainQueryStatistic> domainQueryStatistics;
+  final bool showDates;
+  final DateFormat formatter = new DateFormat('yyyy-MM-dd HH:mm');
 
-  DomainQueryStatisticDataSource(this.domainQueryStatistics);
+  DomainQueryStatisticDataSource(this.domainQueryStatistics, this.showDates);
 
   @override
   DataRow getRow(int index) {
@@ -114,6 +121,7 @@ class DomainQueryStatisticDataSource extends DataTableSource {
     return new DataRow.byIndex(
         index: index,
         cells: <DataCell>[
+          showDates ? new DataCell(new Text(formatter.format(new DateTime.fromMillisecondsSinceEpoch(domainQueryStatistic.position * 1000)))) :
           new DataCell(new Text('${domainQueryStatistic.position}')),
           new DataCell(new Text('${domainQueryStatistic.queries}')),
           new DataCell(new Text('${domainQueryStatistic.name}')),
