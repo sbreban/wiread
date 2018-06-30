@@ -79,7 +79,7 @@ var topDevicesRouteHandler = new Handler(handlerFunc: (BuildContext context, Map
 
 var topDomainsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   print("Top domains route params: $params");
-  return new DomainQueryStatisticsWidget();
+  return new DomainQueryStatisticsWidget(null);
 });
 
 var subjectsRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {

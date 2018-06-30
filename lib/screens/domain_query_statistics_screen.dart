@@ -10,64 +10,59 @@ import 'package:wiread/util/rest_data_source.dart';
 import 'package:wiread/util/routes.dart';
 
 class DomainQueryStatisticsWidget extends StatefulWidget {
+
+  final List<DomainQueryStatistic> domainQueryStatistics;
+
+  DomainQueryStatisticsWidget(this.domainQueryStatistics);
+
   @override
   State createState() {
-    return new DomainQueryStatisticsWidgetState();
+    return new DomainQueryStatisticsWidgetState(domainQueryStatistics);
   }
 }
 
 class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget> {
+
+  final List<DomainQueryStatistic> domainQueryStatistics;
   final Router router = Config.getInstance().router;
 
-  Widget _buildStatisticsList() {
-    RestDataSource restDataSource = new RestDataSource();
-    final Future<Response> response = restDataSource.get("${Routes.topDomainsRoute}");
+  DomainQueryStatisticsWidgetState(this.domainQueryStatistics);
 
-    return new FutureBuilder(
-      future: response,
-      builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
-        if (snapshot.data != null) {
-          try {
-            print("Top domains response data: ${snapshot.data.body}");
-            final responseJson = json.decode(snapshot.data.body);
-            List<DomainQueryStatistic> domainQueryStatistics = [];
-            for (int index = 0; index < responseJson.length; index++) {
-              print("Domain query $index: ${responseJson[index]}");
-              if (responseJson[index] != null) {
-                DomainQueryStatistic domainQueryStatistic =
-                DomainQueryStatistic.fromJson(responseJson[index]);
-                domainQueryStatistics.add(domainQueryStatistic);
+  Widget _buildStatisticsList() {
+    print("Domain queries statistics $domainQueryStatistics");
+    if (domainQueryStatistics == null) {
+      RestDataSource restDataSource = new RestDataSource();
+      final Future<Response> response = restDataSource.get(
+          "${Routes.topDomainsRoute}");
+
+      return new FutureBuilder(
+        future: response,
+        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+          if (snapshot.data != null) {
+            try {
+              print("Top domains response data: ${snapshot.data.body}");
+              final responseJson = json.decode(snapshot.data.body);
+              List<DomainQueryStatistic> domainQueryStatistics = [];
+              for (int index = 0; index < responseJson.length; index++) {
+                print("Domain query $index: ${responseJson[index]}");
+                if (responseJson[index] != null) {
+                  DomainQueryStatistic domainQueryStatistic =
+                  DomainQueryStatistic.fromJson(responseJson[index]);
+                  domainQueryStatistics.add(domainQueryStatistic);
+                }
               }
+              return buildListView(domainQueryStatistics);
+            } catch (e) {
+              return new Text("Error loading: " + e.toString());
             }
-            return new ListView(
-                padding: const EdgeInsets.all(16.0),
-                children: <Widget>[
-                  new PaginatedDataTable(
-                      header: const Text("Domains"),
-                      columns: <DataColumn>[
-                        new DataColumn(
-                            label: const Text('Position'),
-                            numeric: true
-                        ),
-                        new DataColumn(
-                          label: const Text('Queries'),
-                          numeric: true,
-                        ),
-                        new DataColumn(
-                          label: const Text('Name'),
-                        ),
-                      ],
-                      source: new DomainQueryStatisticDataSource(
-                          domainQueryStatistics))
-                ]);
-          } catch (e) {
-            return new Text("Error loading: " + e.toString());
+          } else {
+            return new CircularProgressIndicator();
           }
-        } else {
-          return new CircularProgressIndicator();
-        }
-      },
-    );
+        },
+      );
+    } else {
+      return buildListView(domainQueryStatistics);
+    }
   }
 
   @override
@@ -78,6 +73,30 @@ class DomainQueryStatisticsWidgetState extends State<DomainQueryStatisticsWidget
       ),
       body: _buildStatisticsList(),
     );
+  }
+
+  Widget buildListView(List<DomainQueryStatistic> domainQueryStatistics) {
+    return new ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: <Widget>[
+          new PaginatedDataTable(
+              header: const Text("Domains"),
+              columns: <DataColumn>[
+                new DataColumn(
+                    label: const Text('Position'),
+                    numeric: true
+                ),
+                new DataColumn(
+                  label: const Text('Queries'),
+                  numeric: true,
+                ),
+                new DataColumn(
+                  label: const Text('Name'),
+                ),
+              ],
+              source: new DomainQueryStatisticDataSource(
+                  domainQueryStatistics))
+        ]);
   }
 }
 

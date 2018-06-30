@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wiread/models/device.dart';
 import 'package:wiread/models/device_block.dart';
+import 'package:wiread/models/domain_query_statistic.dart';
 import 'package:wiread/screens/add_device_form.dart';
+import 'package:wiread/screens/domain_query_statistics_screen.dart';
 import 'package:wiread/screens/edit_time_window_form.dart';
 import 'package:wiread/util/config.dart';
 import 'package:wiread/util/rest_data_source.dart';
@@ -146,6 +148,8 @@ class DeviceWidgetState extends State<DeviceWidget> {
             children: <Widget>[
               new ListTile(title: new Text("Edite time window"),
                   onTap: editTimeWindow),
+              new ListTile(title: new Text("Get all queries"),
+                  onTap: getAllQueries),
               new ListTile(title: new Text("Delete"),
                   onTap: deleteDevice),
               new ListTile(title: new Text("Edit"),
@@ -182,6 +186,39 @@ class DeviceWidgetState extends State<DeviceWidget> {
         );
       },
     ));
+  }
+
+  getAllQueries() {
+    RestDataSource restDataSource = new RestDataSource();
+    final Future<Response> response = restDataSource.get("all_queries_client/${device.id}");
+
+    response.then((Response response) {
+      Navigator.of(context).pop();
+      if (response.body != null) {
+        {
+          try {
+            print("All queries response data: ${response.body}");
+            final responseJson = json.decode(response.body);
+            List<DomainQueryStatistic> domainQueryStatistics = [];
+            for (int index = 0; index < responseJson.length; index++) {
+              print("Domain query $index: ${responseJson[index]}");
+              if (responseJson[index] != null) {
+                DomainQueryStatistic domainQueryStatistic =
+                DomainQueryStatistic.fromJson(responseJson[index]);
+                domainQueryStatistics.add(domainQueryStatistic);
+              }
+            }
+            Navigator.of(context).push(new MaterialPageRoute(
+              builder: (context) {
+                return new DomainQueryStatisticsWidget(domainQueryStatistics);
+              },
+            ));
+          } catch (e) {
+            return new Text("Error loading: " + e.toString());
+          }
+        }
+      }
+    });
   }
 
   deleteDevice() {
