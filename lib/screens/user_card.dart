@@ -42,7 +42,7 @@ class UserCardState extends State<UserCard> {
           shape: BoxShape.circle,
           image: new DecorationImage(
             fit: BoxFit.cover,
-            image: new NetworkImage(renderUrl ?? ''),
+            image: new AssetImage("assets/avatar.png"),
           ),
         ),
       ),
@@ -68,9 +68,7 @@ class UserCardState extends State<UserCard> {
     var crossFade = new AnimatedCrossFade(
       firstChild: placeholder,
       secondChild: userAvatar,
-      crossFadeState: renderUrl == null
-          ? CrossFadeState.showFirst
-          : CrossFadeState.showSecond,
+      crossFadeState: CrossFadeState.showSecond,
       duration: new Duration(milliseconds: 1000),
     );
 

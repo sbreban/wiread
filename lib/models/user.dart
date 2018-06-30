@@ -9,7 +9,7 @@ class User {
   int admin;
   String ageBracket;
 
-  String avatarUrl = "https://www.shareicon.net/data/512x512/2016/06/25/786530_people_512x512.png";
+  String avatarUrl;
 
   User({this.id, this.name, this.username, this.password, this.token, this.admin, this.ageBracket});
 
